@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild": "run-s clean lint",
-    "build": "parcel build app/index.html --no-source-maps",
+    "prebuild": "npm run clean lint",
+    "build": "parcel build --no-content-hash app/index.html --no-source-maps --out-dir dist",
+    "buildChrome": "parcel build --no-content-hash app/src/index.tsx --no-source-maps --out-dir dist/chrome",
     "clean": "rimraf ./dist",
-    "lint": "run-s lint:code",
+    "lint": "npm run lint:code",
     "lint:code": "eslint --ext ts,tsx src",
     "start": "parcel app/index.html --open"
   },
@@ -31,7 +32,12 @@
     "vsc-base": "^0.9.11"
   },
   "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.8.0",
+    "@mui/material": "^5.8.1",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react-dom": "^18.1.0",
+    "react-rrule-generator-ts": "^0.3.3"
   }
 }

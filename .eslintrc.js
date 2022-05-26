@@ -13,6 +13,8 @@ module.exports = {
     'standard'
   ],
   globals: {
+    React: true,
+    JSX: true,
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly'
   },
@@ -36,6 +38,6 @@ module.exports = {
     }
   },
   rules: {
-    semi: [ 'error', 'always' ]
+    semi: ['error', 'always']
   }
 }
