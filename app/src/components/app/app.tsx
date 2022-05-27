@@ -1,33 +1,21 @@
 import * as React from 'react';
-import { IAppProps } from '.';
-import Dialog from '@mui/material/Dialog';
-import { TransitionProps } from '@mui/material/transitions';
-import Slide from '@mui/material/Slide';
-// import { WorkoutsList } from '../workoutsList';
+import { WorkoutsList } from '../workoutsList';
+import { WorkoutScheduler } from '../workoutScheduler';
+import { WorkoutsContext } from '../../providers/workouts';
 
 import './app.module.scss';
-import { WorkoutScheduler } from '../workoutScheduler';
 
-const Transition = React.forwardRef(function Transition (
-  props: TransitionProps & {
-    children: React.ReactElement<any, any>;
-  },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+export const App = (): JSX.Element => {
+  const { state } = React.useContext(WorkoutsContext);
 
-export const App = (props: IAppProps): JSX.Element => {
+  if (!state.isOpen) {
+    return <></>;
+  }
+
   return (
     <>
-      <Dialog open={true}
-        TransitionComponent={Transition}
-        keepMounted
-        fullWidth={true}
-        maxWidth={'sm'}>
-        {/* <WorkoutsList /> */}
-        <WorkoutScheduler />
-      </Dialog>
+      <WorkoutsList />
+      <WorkoutScheduler />
     </>
   );
 };

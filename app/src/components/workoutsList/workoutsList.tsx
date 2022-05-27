@@ -1,92 +1,32 @@
 import * as React from 'react';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import FitnessCenter from '@mui/icons-material/FitnessCenter';
-import EventRepeatIcon from '@mui/icons-material/EventRepeat';
-import DialogTitle from '@mui/material/DialogTitle';
-
-import ListItemText from '@mui/material/ListItemText';
-import IconButton from '@mui/material/IconButton';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import { IWorkoutsListProps } from '.';
+import { WorkoutsDialog } from '../workoutsDialog';
+import { IWorkout, WorkoutsContext } from '../../providers/workouts';
+import { WorkoutItem } from './workoutItem';
 
 import './workoutsList.module.scss';
 
-export const WorkoutsList = (props: IWorkoutsListProps): JSX.Element => {
+export const WorkoutsList = (): JSX.Element => {
+  const { actions, state } = React.useContext(WorkoutsContext);
+
+  if (state.selected) {
+    return <></>;
+  }
+
+  React.useEffect(() => {
+    // eslint-disable-next-line no-unused-vars
+    const _ = actions.get().then(() => {
+      console.log('Done');
+    });
+  }, [actions]);
+
   return (
-    <>
-      <DialogTitle>Workouts</DialogTitle>
+    <WorkoutsDialog title='Workouts'>
       <List sx={{ pt: 0 }}>
-        <ListItem
-          secondaryAction={
-            <IconButton edge='end'>
-              <EventRepeatIcon />
-            </IconButton>
-          }
-        >
-          <ListItemAvatar>
-            <Avatar>
-              <FitnessCenter />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary='Single-line item'
-            secondary={'Secondary text'}
-          />
-        </ListItem>
-        <ListItem
-          secondaryAction={
-            <IconButton edge='end'>
-              <EventRepeatIcon />
-            </IconButton>
-          }
-        >
-          <ListItemAvatar>
-            <Avatar>
-              <FitnessCenter />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary='Single-line item'
-            secondary={'Secondary text'}
-          />
-        </ListItem>
-        <ListItem
-          secondaryAction={
-            <IconButton edge='end'>
-              <EventRepeatIcon />
-            </IconButton>
-          }
-        >
-          <ListItemAvatar>
-            <Avatar>
-              <FitnessCenter />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary='Single-line item'
-            secondary={'Secondary text'}
-          />
-        </ListItem>
-        <ListItem
-          secondaryAction={
-            <IconButton edge='end'>
-              <EventRepeatIcon />
-            </IconButton>
-          }
-        >
-          <ListItemAvatar>
-            <Avatar>
-              <FitnessCenter />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary='Single-line item'
-            secondary={'Secondary text'}
-          />
-        </ListItem>
+        {state.workouts.map((workout: IWorkout, i: number) => (
+          <WorkoutItem workout={workout} key={i} />
+        ))}
       </List>
-    </>
+    </WorkoutsDialog>
   );
 };
