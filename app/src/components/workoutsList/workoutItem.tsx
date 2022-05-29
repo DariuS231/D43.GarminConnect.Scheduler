@@ -21,8 +21,11 @@ export const WorkoutItem = (props: IWorkoutItemProps): JSX.Element => {
       secondaryAction={
         <IconButton
           edge='end'
-          onClick={() => {
+          onClick={(event: React.MouseEvent<HTMLElement>): boolean => {
             actions.setSelected(workout);
+            event.stopPropagation();
+            event.preventDefault();
+            return false;
           }}
         >
           <EventRepeatIcon />

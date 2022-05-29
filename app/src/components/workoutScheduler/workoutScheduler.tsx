@@ -17,12 +17,18 @@ export const WorkoutScheduler = (
     return <></>;
   }
 
-  const onCancelClick = () => {
+  const onCancelClick = (event: React.MouseEvent<HTMLElement>): boolean => {
     actions.setSelected();
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
   };
 
-  const onSaveClick = () => {
+  const onSaveClick = (event: React.MouseEvent<HTMLElement>): boolean => {
     actions.setSelected();
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
   };
 
   return (

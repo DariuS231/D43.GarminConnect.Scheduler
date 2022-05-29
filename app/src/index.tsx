@@ -4,7 +4,7 @@ import { App } from './components/app';
 import { WorkoutsProvider } from './providers/workouts';
 
 const container = document.createElement('div');
-container.setAttribute('id', 'root');
+container.setAttribute('id', 'root-chrome-ext');
 document.body.appendChild(container);
 
 const root = createRoot(container);

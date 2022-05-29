@@ -18,7 +18,7 @@ export const WorkoutsList = (): JSX.Element => {
     const _ = actions.get().then(() => {
       console.log('Done');
     });
-  }, [actions]);
+  }, []);
 
   return (
     <WorkoutsDialog title='Workouts'>

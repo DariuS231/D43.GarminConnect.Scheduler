@@ -1,6 +1,6 @@
 export interface IWorkoutsDialogActionButtonsProps {
-  onCancelClick?: () => void;
-  onSaveClick?: () => void;
+  onCancelClick?: (event: React.MouseEvent<HTMLElement>) => boolean;
+  onSaveClick?: (event: React.MouseEvent<HTMLElement>) => boolean;
 }
 
 export interface IWorkoutsDialog extends IWorkoutsDialogActionButtonsProps {

@@ -30,7 +30,7 @@ export const WorkoutsProvider = (
       `${baseUrl}/workouts?start=1&limit=9999&myWorkoutsOnly=true&sharedWorkoutsOnly=false`,
       { headers }
     );
-    const workouts = resp.json() as unknown as IWorkout[];
+    const workouts = (await resp.json()) as unknown as IWorkout[];
     setWorkoutsState({ ...workoutsState, workouts });
   };
 
@@ -50,7 +50,7 @@ export const WorkoutsProvider = (
         }
       });
 
-      const jsonResp = resp.json();
+      const jsonResp = await resp.json();
       console.log(jsonResp);
     }
   };
