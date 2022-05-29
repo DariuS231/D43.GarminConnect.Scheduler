@@ -32,12 +32,13 @@
     "vsc-base": "^0.9.11"
   },
   "dependencies": {
+    "@date-io/moment": "^2.14.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.8.0",
     "@mui/material": "^5.8.1",
+    "@mui/x-date-pickers": "^5.0.0-alpha.4",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-rrule-generator-ts": "^0.3.3"
+    "react-dom": "^18.1.0"
   }
 }

@@ -3,14 +3,16 @@ import { IWorkoutSchedulerProps } from '.';
 import RRuleGeneratorTS, { translations } from 'react-rrule-generator-ts';
 import 'react-rrule-generator-ts/dist/index.css';
 import DialogContentText from '@mui/material/DialogContentText';
-
-import './workoutScheduler.module.scss';
 import { WorkoutsDialog } from '../workoutsDialog';
 import { WorkoutsContext } from '../../providers/workouts';
+import { RRuleGenerator } from '../rRuleGenerator';
+
+import './workoutScheduler.module.scss';
 
 export const WorkoutScheduler = (
   props: IWorkoutSchedulerProps
 ): JSX.Element => {
+  const [rule, setRule] = React.useState('');
   const { actions, state } = React.useContext(WorkoutsContext);
 
   if (!state.selected) {
@@ -38,17 +40,7 @@ export const WorkoutScheduler = (
       onSaveClick={onSaveClick}
     >
       <DialogContentText>{state.selected?.description}</DialogContentText>
-      <RRuleGeneratorTS
-        onChange={(rrule: any) => console.log(rrule)}
-        config={{
-          hideStart: false,
-          repeat: ['Daily', 'Monthly', 'Weekly'],
-          end: ['After', 'On date'],
-          weekStartsOnSunday: true,
-          hideError: true
-        }}
-        translations={translations.english}
-      />
+      <RRuleGenerator />
     </WorkoutsDialog>
   );
 };
