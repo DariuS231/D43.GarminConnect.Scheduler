@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { IWorkoutSchedulerProps } from '.';
-import RRuleGeneratorTS, { translations } from 'react-rrule-generator-ts';
-import 'react-rrule-generator-ts/dist/index.css';
 import DialogContentText from '@mui/material/DialogContentText';
 import { WorkoutsDialog } from '../workoutsDialog';
 import { WorkoutsContext } from '../../providers/workouts';
