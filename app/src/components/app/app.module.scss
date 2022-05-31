@@ -6,4 +6,7 @@ div#root {
   @include full-page;
   margin: 0;
   padding: 0;
+  .MuiFormControl-root {
+    vertical-align: baseline;
+  }
 }

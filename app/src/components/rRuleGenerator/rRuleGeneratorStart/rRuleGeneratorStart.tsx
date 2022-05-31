@@ -1,12 +1,10 @@
-import * as React from "react";
-import { IRRuleGeneratorStartProps } from ".";
+import * as React from 'react';
+import { IRRuleGeneratorStartProps } from '.';
 
-import "./rRuleGeneratorStart.module.scss";
-import { RRuleGeneratorDatePicker } from "../rRuleGeneratorDatePicker";
+import './rRuleGeneratorStart.module.scss';
+import { RRuleGeneratorDatePicker } from '../rRuleGeneratorDatePicker';
 
-export const RRuleGeneratorStart = (
-  props: IRRuleGeneratorStartProps
-): JSX.Element => {
+export const RRuleGeneratorStart = (props: IRRuleGeneratorStartProps): JSX.Element => {
   const [value, setValue] = React.useState<Date>(new Date());
 
   return (

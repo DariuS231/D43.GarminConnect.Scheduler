@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { IWorkoutSchedulerProps } from '.';
 import DialogContentText from '@mui/material/DialogContentText';
 import { WorkoutsDialog } from '../workoutsDialog';
 import { WorkoutsContext } from '../../providers/workouts';
@@ -7,10 +6,8 @@ import { RRuleGenerator } from '../rRuleGenerator';
 
 import './workoutScheduler.module.scss';
 
-export const WorkoutScheduler = (
-  props: IWorkoutSchedulerProps
-): JSX.Element => {
-  const [rule, setRule] = React.useState('');
+export const WorkoutScheduler = (): JSX.Element => {
+  // const [rule, setRule] = React.useState('');
   const { actions, state } = React.useContext(WorkoutsContext);
 
   if (!state.selected) {
