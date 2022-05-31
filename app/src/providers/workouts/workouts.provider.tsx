@@ -3,9 +3,7 @@ import { WorkoutsContext } from '.';
 import { IWorkout, IWorkoutsState } from './workouts.types';
 import { WORKOUTS_MOCK } from './workouts.mock';
 
-export const WorkoutsProvider = (
-  props: React.PropsWithChildren<unknown>
-): JSX.Element => {
+export const WorkoutsProvider = (props: React.PropsWithChildren<unknown>): JSX.Element => {
   const [workoutsState, setWorkoutsState] = React.useState({
     selected: undefined,
     workouts: [],
@@ -20,8 +18,14 @@ export const WorkoutsProvider = (
     accept: 'application/json, text/plain, */*'
   };
 
+  const wait = async (ms: number) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  };
   const get = async () => {
     if (window.location.href.startsWith('http://localhost:')) {
+      await wait(3000);
       setWorkoutsState({ ...workoutsState, workouts: WORKOUTS_MOCK });
       return;
     }
@@ -73,9 +77,5 @@ export const WorkoutsProvider = (
     }
   };
 
-  return (
-    <WorkoutsContext.Provider value={value}>
-      {props.children}
-    </WorkoutsContext.Provider>
-  );
+  return <WorkoutsContext.Provider value={value}>{props.children}</WorkoutsContext.Provider>;
 };

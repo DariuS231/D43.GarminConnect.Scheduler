@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './components/app';
+import { LoadingProvider } from './providers/loading';
 import { WorkoutsProvider } from './providers/workouts';
 
 const container = document.createElement('div');
@@ -11,6 +12,8 @@ const root = createRoot(container);
 
 root.render(
   <WorkoutsProvider>
-    <App />
+    <LoadingProvider>
+      <App />
+    </LoadingProvider>
   </WorkoutsProvider>
 );

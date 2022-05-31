@@ -8,13 +8,13 @@ import { IWorkoutsDialog } from './workoutsDialog.types';
 import { Transition, systemProps } from './workoutsDialog.utils';
 import { WorkoutsContext } from '../../providers/workouts';
 import { WorkoutsDialogActionButtons } from './workoutsDialogActionButtons';
+import { Loading, LoadingContext } from '../../providers/loading';
 
 import './workoutsDialog.module.scss';
 
-export const WorkoutsDialog = (
-  props: React.PropsWithChildren<IWorkoutsDialog>
-): JSX.Element => {
+export const WorkoutsDialog = (props: React.PropsWithChildren<IWorkoutsDialog>): JSX.Element => {
   const { actions } = React.useContext(WorkoutsContext);
+  const loadingCtx = React.useContext(LoadingContext);
 
   const onCloseCLick = () => {
     actions.closeApp();
@@ -34,8 +34,14 @@ export const WorkoutsDialog = (
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent dividers>{props.children}</DialogContent>
-      <WorkoutsDialogActionButtons {...props} />
+
+      <Loading />
+      {!loadingCtx.state.isLoading && (
+        <>
+          <DialogContent dividers>{props.children}</DialogContent>
+          <WorkoutsDialogActionButtons {...props} />
+        </>
+      )}
     </Dialog>
   );
 };
