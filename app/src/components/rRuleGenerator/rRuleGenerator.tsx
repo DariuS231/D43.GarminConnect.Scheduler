@@ -7,47 +7,48 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 
 import './rRuleGenerator.module.scss';
+import { RRuleGeneratorSectionTitle } from './rRuleGeneratorSectionTitle';
 
 export const RRuleGenerator = (): JSX.Element => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box sx={{ width: '100%' }}>
-        <Box>
-          <Grid container alignItems='center'>
-            <Grid item xs>
-              <Typography gutterBottom variant='h6' component='div'>
-                Start
-              </Typography>
+        <Box sx={{ flexGrow: 1, paddingBottom: 3 }}>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <RRuleGeneratorSectionTitle title='Start' />
+            </Grid>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={11}>
+              <RRuleGeneratorStart />
             </Grid>
           </Grid>
-          <RRuleGeneratorStart />
         </Box>
-        <Divider variant='middle' />
-
-        <Box>
-          <Grid container alignItems='center'>
-            <Grid item xs>
-              <Typography gutterBottom variant='h6' component='div'>
-                Repeat
-              </Typography>
+        <Divider variant='fullWidth' />
+        <Box sx={{ flexGrow: 1, paddingBottom: 3, paddingTop: 2 }}>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <RRuleGeneratorSectionTitle title='Repeat' />
+            </Grid>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={11}>
+              <RRuleGeneratorRepeat />
             </Grid>
           </Grid>
-          <RRuleGeneratorRepeat />
         </Box>
-        <Divider variant='middle' />
-
-        <Box>
-          <Grid container alignItems='center'>
-            <Grid item xs>
-              <Typography gutterBottom variant='h6' component='div'>
-                End
-              </Typography>
+        <Divider variant='fullWidth' />
+        <Box sx={{ flexGrow: 1, paddingTop: 2 }}>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <RRuleGeneratorSectionTitle title='End' />
+            </Grid>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={11}>
+              <RRuleGeneratorEnd />
             </Grid>
           </Grid>
-          <RRuleGeneratorEnd />
         </Box>
       </Box>
     </LocalizationProvider>
