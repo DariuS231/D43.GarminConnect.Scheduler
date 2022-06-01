@@ -1,10 +1,10 @@
-export interface IToggleOptionButtonOption {
-  key: string;
+export interface IToggleOptionButtonOption<T> {
+  key: T;
   displayName: string;
 }
-export interface IToggleOptionButtonsProps {
+export interface IToggleOptionButtonsProps<T> {
   exclusive?: boolean;
-  options: IToggleOptionButtonOption[];
-  value: string | string[];
-  onChange: (newValue: string | string[]) => void;
+  options: IToggleOptionButtonOption<T>[];
+  value: T | T[];
+  onChange: (newValue: T | T[]) => void;
 }

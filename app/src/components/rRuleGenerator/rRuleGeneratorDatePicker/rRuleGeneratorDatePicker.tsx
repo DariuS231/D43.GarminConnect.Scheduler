@@ -1,22 +1,21 @@
-import * as React from "react";
-import { IRRuleGeneratorDatePickerProps } from ".";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import TextField from "@mui/material/TextField";
+import * as React from 'react';
+import { IRRuleGeneratorDatePickerProps } from '.';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import TextField from '@mui/material/TextField';
 
-import "./rRuleGeneratorDatePicker.module.scss";
+import './rRuleGeneratorDatePicker.module.scss';
 
-export const RRuleGeneratorDatePicker = (
-  props: IRRuleGeneratorDatePickerProps
-): JSX.Element => {
-  const minDt = new Date();
-  let maxDt = new Date();
-  maxDt.setFullYear(minDt.getFullYear() + 1);
+export const RRuleGeneratorDatePicker = (props: IRRuleGeneratorDatePickerProps): JSX.Element => {
+  const todaysDate = new Date();
+  const maxDt = new Date();
+  maxDt.setFullYear(todaysDate.getFullYear() + 1);
 
+  const minDate = props.minDate || todaysDate;
   return (
     <DesktopDatePicker
-      openTo="day"
-      views={["year", "month", "day"]}
-      minDate={minDt}
+      openTo='day'
+      views={['year', 'month', 'day']}
+      minDate={minDate}
       maxDate={maxDt}
       disablePast={true}
       label={props.label}

@@ -1,10 +1,8 @@
-export enum RRuleFrequency {
-  // eslint-disable-next-line no-unused-vars
-  Daily = 'Daily',
-  // eslint-disable-next-line no-unused-vars
-  Weekly = 'Weekly',
-  // eslint-disable-next-line no-unused-vars
-  Monthly = 'Monthly'
+import { RRule } from 'rrule';
+
+export interface IRRuleGeneratorRepeatProps {
+  rrule: RRule;
+  onRruleChange: (rrule: RRule) => void;
 }
 
 export interface IRRuleGeneratorRepeatDaily {

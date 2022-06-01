@@ -3,10 +3,13 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import * as React from 'react';
 import { IToggleOptionButtonsProps } from '.';
 
-export const ToggleOptionButtons = (props: IToggleOptionButtonsProps): JSX.Element => {
-  const options = props.options.map((i) => (
-    <ToggleButton value={i.key} key={i.key}>
-      {i.displayName}
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
+export const ToggleOptionButtons = <T extends unknown>(
+  props: IToggleOptionButtonsProps<T>
+): JSX.Element => {
+  const options = props.options.map((item, i) => (
+    <ToggleButton value={item.key} key={i}>
+      {item.displayName}
     </ToggleButton>
   ));
   return (

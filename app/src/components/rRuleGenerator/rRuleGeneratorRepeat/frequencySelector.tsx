@@ -3,32 +3,25 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
-import { RRuleFrequency } from '.';
+import { Frequency } from 'rrule';
 
 export interface IFrequencySelectorProps {
-  frequency: RRuleFrequency;
-  onChange: (event: SelectChangeEvent<RRuleFrequency>) => void;
+  frequency: Frequency;
+  onChange: (frequency: Frequency) => void;
 }
 
 export const FrequencySelector = (props: IFrequencySelectorProps): JSX.Element => {
+  const onChange = (event: SelectChangeEvent<Frequency>) => {
+    const newFrequency = parseInt(event.target.value.toString()) as Frequency;
+    props.onChange(newFrequency);
+  };
+
   return (
     <div>
-      <RadioGroup row value={props.frequency} onChange={props.onChange}>
-        <FormControlLabel
-          value={RRuleFrequency.Daily}
-          control={<Radio />}
-          label={RRuleFrequency.Daily}
-        />
-        <FormControlLabel
-          value={RRuleFrequency.Weekly}
-          control={<Radio />}
-          label={RRuleFrequency.Weekly}
-        />
-        <FormControlLabel
-          value={RRuleFrequency.Monthly}
-          control={<Radio />}
-          label={RRuleFrequency.Monthly}
-        />
+      <RadioGroup row value={props.frequency} onChange={onChange}>
+        <FormControlLabel value={Frequency.DAILY} control={<Radio />} label='Daily' />
+        <FormControlLabel value={Frequency.WEEKLY} control={<Radio />} label='Weekly' />
+        <FormControlLabel value={Frequency.MONTHLY} control={<Radio />} label='Monthly' />
       </RadioGroup>
     </div>
   );

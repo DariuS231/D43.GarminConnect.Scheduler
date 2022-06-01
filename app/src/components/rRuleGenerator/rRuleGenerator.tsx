@@ -1,17 +1,30 @@
 import * as React from 'react';
-import { RRuleGeneratorEnd } from './rRuleGeneratorEnd';
 import { RRuleGeneratorRepeat } from './rRuleGeneratorRepeat';
-import { RRuleGeneratorStart } from './rRuleGeneratorStart';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { RRuleGeneratorDatePicker } from './rRuleGeneratorDatePicker';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
+import { Frequency, RRule } from 'rrule';
+import { RRuleGeneratorSectionTitle } from './rRuleGeneratorSectionTitle';
+import Typography from '@mui/material/Typography';
+import { buildBaseOptions } from './rRuleGenerator.utils';
 
 import './rRuleGenerator.module.scss';
-import { RRuleGeneratorSectionTitle } from './rRuleGeneratorSectionTitle';
+
+const cDate = new Date();
+const fDate = new Date();
+
+fDate.setMonth(cDate.getMonth() + 1);
 
 export const RRuleGenerator = (): JSX.Element => {
+  const [rrule, setRrule] = React.useState(
+    new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate))
+  );
+
+  const { dtstart, until } = rrule.options;
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box sx={{ width: '100%' }}>
@@ -22,7 +35,14 @@ export const RRuleGenerator = (): JSX.Element => {
             </Grid>
             <Grid item xs={1}></Grid>
             <Grid item xs={11}>
-              <RRuleGeneratorStart />
+              <RRuleGeneratorDatePicker
+                value={dtstart}
+                onChange={(value) => {
+                  if (value) {
+                    setRrule(new RRule({ ...rrule.options, dtstart: value }));
+                  }
+                }}
+              />
             </Grid>
           </Grid>
         </Box>
@@ -34,7 +54,12 @@ export const RRuleGenerator = (): JSX.Element => {
             </Grid>
             <Grid item xs={1}></Grid>
             <Grid item xs={11}>
-              <RRuleGeneratorRepeat />
+              <RRuleGeneratorRepeat
+                rrule={rrule}
+                onRruleChange={(newRrule: RRule) => {
+                  setRrule(newRrule);
+                }}
+              />
             </Grid>
           </Grid>
         </Box>
@@ -46,7 +71,25 @@ export const RRuleGenerator = (): JSX.Element => {
             </Grid>
             <Grid item xs={1}></Grid>
             <Grid item xs={11}>
-              <RRuleGeneratorEnd />
+              <RRuleGeneratorDatePicker
+                value={until as Date}
+                minDate={dtstart}
+                onChange={(value) => {
+                  if (value) {
+                    setRrule(new RRule({ ...rrule.options, until: value }));
+                  }
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+        <Divider variant='fullWidth' />
+        <Box sx={{ flexGrow: 1, paddingTop: 2 }}>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <Typography variant='body1' gutterBottom>
+                {rrule.toText()}
+              </Typography>
             </Grid>
           </Grid>
         </Box>

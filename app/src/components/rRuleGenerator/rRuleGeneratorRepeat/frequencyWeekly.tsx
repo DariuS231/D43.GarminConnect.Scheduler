@@ -1,44 +1,44 @@
 import * as React from 'react';
-import { IRRuleGeneratorRepeatWeekly, RRuleFrequency } from '.';
+import { Frequency, Weekday } from 'rrule';
 import { NumberOptionsSelect } from '../../numberOptionsSelect';
 import { ToggleOptionButtons } from '../../toggleOptionButtons';
 import { TypographyBody } from '../../typographyBody';
 
 export interface IFrequencyWeeklyProps {
-  frequency: RRuleFrequency;
-  repeat: IRRuleGeneratorRepeatWeekly;
-  onChange: (repeat: IRRuleGeneratorRepeatWeekly) => void;
+  frequency: Frequency;
+  repeat: number;
+  onRepeatChange: (repeat: number) => void;
+  weekDays: Weekday[];
+  onDaysChange: (days: Weekday | Weekday[]) => void;
 }
 
 export const FrequencyWeekly = (props: IFrequencyWeeklyProps): JSX.Element => {
-  if (props.frequency !== RRuleFrequency.Weekly) {
+  if (props.frequency !== Frequency.WEEKLY) {
     return <></>;
   }
 
   return (
     <div>
-      <TypographyBody prefix='Repeat every' sufix={props.repeat.every > 1 ? 'Weeks' : 'Week'}>
+      <TypographyBody prefix='Repeat every' sufix={props.repeat > 1 ? 'Weeks' : 'Week'}>
         <NumberOptionsSelect
           optionsCount={52}
-          value={props.repeat.every.toString()}
+          value={props.repeat.toString()}
           onChange={(value: string) => {
-            props.onChange({ ...props.repeat, every: parseInt(value) });
+            props.onRepeatChange(parseInt(value));
           }}
         />
       </TypographyBody>
       <ToggleOptionButtons
-        value={props.repeat.days}
-        onChange={(days) => {
-          props.onChange({ ...props.repeat, days: days as string[] });
-        }}
+        value={props.weekDays}
+        onChange={props.onDaysChange}
         options={[
-          { key: 'Mon', displayName: 'Mon' },
-          { key: 'Tue', displayName: 'Tue' },
-          { key: 'Wed', displayName: 'Wed' },
-          { key: 'Thu', displayName: 'Thu' },
-          { key: 'Fri', displayName: 'Fri' },
-          { key: 'Sat', displayName: 'Sat' },
-          { key: 'Sun', displayName: 'Sun' }
+          { key: new Weekday(0), displayName: 'Mon' },
+          { key: new Weekday(1), displayName: 'Tue' },
+          { key: new Weekday(2), displayName: 'Wed' },
+          { key: new Weekday(3), displayName: 'Thu' },
+          { key: new Weekday(4), displayName: 'Fri' },
+          { key: new Weekday(5), displayName: 'Sat' },
+          { key: new Weekday(6), displayName: 'Sun' }
         ]}
       />
     </div>
