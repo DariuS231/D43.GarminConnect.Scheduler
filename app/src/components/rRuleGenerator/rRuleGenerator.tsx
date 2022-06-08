@@ -90,6 +90,11 @@ export const RRuleGenerator = (): JSX.Element => {
               <Typography variant='body1' gutterBottom>
                 {rrule.toText()}
               </Typography>
+              <Typography variant='body1' gutterBottom>
+                <ul>
+                {rrule.all().map(a=>(<li>{a.toDateString()}</li>))}
+                </ul>
+              </Typography>
             </Grid>
           </Grid>
         </Box>

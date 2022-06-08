@@ -1,5 +1,10 @@
-export interface IStringOptionsSelectProps {
+export interface IKeyValueOption {
+  key: string;
   value: string;
-  options: string[];
-  onChange: (newValue: string) => void;
+}
+
+export interface IStringOptionsSelectProps {
+  value: string | IKeyValueOption;
+  options: (string | IKeyValueOption)[];
+  onChange: (newValue: string | IKeyValueOption) => void;
 }

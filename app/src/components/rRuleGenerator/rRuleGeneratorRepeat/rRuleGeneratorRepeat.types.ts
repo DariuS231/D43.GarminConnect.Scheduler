@@ -21,3 +21,10 @@ export interface IRRuleGeneratorRepeatMonthly {
   onDay?: number;
   onThe?: IRepeatOnThe;
 }
+
+export enum MonthlyRepeatMode {
+  // eslint-disable-next-line no-unused-vars
+  OnDay = 'OnDay',
+  // eslint-disable-next-line no-unused-vars
+  OnThe = 'OnThe'
+}

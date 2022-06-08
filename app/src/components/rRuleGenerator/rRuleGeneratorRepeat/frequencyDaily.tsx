@@ -1,25 +1,31 @@
-import * as React from 'react';
-import { Frequency } from 'rrule';
-import { NumberOptionsSelect } from '../../numberOptionsSelect';
-import { TypographyBody } from '../../typographyBody';
+import * as React from "react";
+import { Frequency, RRule, Options } from "rrule";
+import { NumberOptionsSelect } from "../../numberOptionsSelect";
+import { TypographyBody } from "../../typographyBody";
+import { buildBaseOptions } from "../rRuleGenerator.utils";
 
 export interface IFrequencyDailyProps {
-  frequency: Frequency;
-  repeat: number;
-  onRepeatChange: (repeat: number) => void;
+  rrule: RRule;
+  onChange: (newOptions: Partial<Options>) => void;
 }
 
 export const FrequencyDaily = (props: IFrequencyDailyProps): JSX.Element => {
-  if (props.frequency !== Frequency.DAILY) {
+  const { rrule, onChange } = props;
+  const { freq, dtstart, until, interval } = rrule.options;
+
+  if (freq !== Frequency.DAILY) {
     return <></>;
   }
+
   return (
-    <TypographyBody prefix='Repeat every' sufix={props.repeat > 1 ? 'Days' : 'Day'}>
+    <TypographyBody prefix="Repeat every" sufix={interval > 1 ? "Days" : "Day"}>
       <NumberOptionsSelect
         optionsCount={31}
-        value={props.repeat.toString()}
+        value={interval.toString()}
         onChange={(value: string) => {
-          props.onRepeatChange(parseInt(value));
+          const newInterval = parseInt(value);
+          let newOptions = buildBaseOptions(freq, dtstart, until as Date);
+          onChange({ ...newOptions, interval: newInterval });
         }}
       />
     </TypographyBody>

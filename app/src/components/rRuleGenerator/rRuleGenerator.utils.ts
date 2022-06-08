@@ -8,6 +8,7 @@ export const buildBaseOptions = (freq: Frequency, cDate: Date, fDate: Date): Par
     freq,
     dtstart: convertToUTCDate(cDate),
     until: convertToUTCDate(fDate),
-    interval: 1
+    interval: 1,
+    byweekday: []
   };
 };

@@ -1,45 +1,48 @@
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import * as React from 'react';
-import { Frequency } from 'rrule';
-import { FrequencyMonthlyOnDay } from './frequencyMonthlyOnDay';
-import { FrequencyMonthlyOnThe } from './frequencyMonthlyOnThe';
-import { IRepeatOnThe } from './rRuleGeneratorRepeat.types';
-import { NumberOptionsSelect } from '../../numberOptionsSelect';
-import { TypographyBody } from '../../typographyBody';
-import { ToggleOptionButtons } from '../../toggleOptionButtons';
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import * as React from "react";
+import { RRule, Frequency, Options } from "rrule";
+import { FrequencyMonthlyOnDay } from "./frequencyMonthlyOnDay";
+import { FrequencyMonthlyOnThe } from "./frequencyMonthlyOnThe";
+import { IRepeatOnThe, MonthlyRepeatMode } from "./rRuleGeneratorRepeat.types";
+import { NumberOptionsSelect } from "../../numberOptionsSelect";
+import { TypographyBody } from "../../typographyBody";
+import { ToggleOptionButtons } from "../../toggleOptionButtons";
+import { buildBaseOptions } from "../rRuleGenerator.utils";
 
-export enum MonthlyRepeatMode {
-  // eslint-disable-next-line no-unused-vars
-  OnDay = 'OnDay',
-  // eslint-disable-next-line no-unused-vars
-  OnThe = 'OnThe'
-}
 export interface IFrequencyMonthlyProps {
-  frequency: Frequency;
-  repeat: number;
-  onRepeatChange: (repeat: number) => void;
+  rrule: RRule;
+  onChange: (newOptions: Partial<Options>) => void;
 }
 
-export const FrequencyMonthly = (props: IFrequencyMonthlyProps): JSX.Element => {
-  const [repeatMode, setRepeatMode] = React.useState(MonthlyRepeatMode.OnDay);
+export const FrequencyMonthly = (
+  props: IFrequencyMonthlyProps
+): JSX.Element => {
+  const { rrule, onChange } = props;
+  const { freq, dtstart, until, interval, bysetpos, byweekday, bymonthday } =
+  rrule.options;
 
-  if (props.frequency !== Frequency.MONTHLY) {
+  if (freq !== Frequency.MONTHLY) {
     return <></>;
   }
+  const mode = bysetpos ? MonthlyRepeatMode.OnThe : MonthlyRepeatMode.OnDay;
 
   return (
     <div>
-      <Box sx={{ width: '100%' }}>
+      <Box sx={{ width: "100%" }}>
         <Box>
-          <Grid container alignItems='center'>
+          <Grid container alignItems="center">
             <Grid item xs>
-              <TypographyBody prefix='Repeat every' sufix={props.repeat > 1 ? 'Months' : 'Month'}>
+              <TypographyBody
+                prefix="Repeat every"
+                sufix={interval > 1 ? "Months" : "Month"}
+              >
                 <NumberOptionsSelect
                   optionsCount={12}
-                  value={props.repeat.toString()}
+                  value={interval.toString()}
                   onChange={(value: string) => {
-                    props.onRepeatChange(parseInt(value));
+                    const newInterval = parseInt(value); 
+                    onChange({ ...rrule.options, interval: newInterval });
                   }}
                 />
               </TypographyBody>
@@ -48,23 +51,27 @@ export const FrequencyMonthly = (props: IFrequencyMonthlyProps): JSX.Element => 
         </Box>
 
         <Box>
-          <Grid container alignItems='center'>
+          <Grid container alignItems="center">
             <Grid item xs>
               <ToggleOptionButtons
                 exclusive
-                value={repeatMode.toString()}
+                value={mode.toString()}
                 onChange={(newMode) => {
-                  setRepeatMode(MonthlyRepeatMode[newMode as keyof typeof MonthlyRepeatMode]);
+                  let newOptions = buildBaseOptions(
+                    freq,
+                    dtstart,
+                    until as Date
+                  );
 
-                  // props.onChange({
-                  //   ...props.repeat,
-                  //   onThe: { day: 'Monday', ordinal: 'First' },
-                  //   onDay: 1
-                  // });
+                  onChange(
+                    newMode === MonthlyRepeatMode.OnDay
+                      ? { ...newOptions, bymonthday: 1, interval }
+                      : { ...newOptions, bysetpos: 1, byweekday: [0], interval }
+                  );
                 }}
                 options={[
-                  { key: 'OnDay', displayName: 'On Day' },
-                  { key: 'OnThe', displayName: 'On The' }
+                  { key: "OnDay", displayName: "On Day" },
+                  { key: "OnThe", displayName: "On The" },
                 ]}
               />
             </Grid>
@@ -72,21 +79,33 @@ export const FrequencyMonthly = (props: IFrequencyMonthlyProps): JSX.Element => 
         </Box>
 
         <Box>
-          <Grid container alignItems='center'>
+          <Grid container alignItems="center">
             <Grid item xs>
               <FrequencyMonthlyOnThe
-                value={props.repeat.onThe as IRepeatOnThe}
-                onChange={(repeat: IRepeatOnThe) => {
-                  // props.onChange({ ...props.repeat, onThe: repeat });
+                value={{bysetpos: bysetpos as unknown as number, byweekday}}
+                onChange={(newValue) => {
+                  let newOptions = buildBaseOptions(
+                    freq,
+                    dtstart,
+                    until as Date
+                  );
+                  debugger;
+                  onChange({ ...newOptions, bysetpos: newValue.bysetpos, byweekday: newValue.byweekday, interval });
                 }}
-                mode={repeatMode}
+                mode={mode}
               />
               <FrequencyMonthlyOnDay
-                value={props.repeat.onDay as number}
-                onChange={(repeat: number) => {
-                  // props.onChange({ ...props.repeat, onDay: repeat });
+                value={bymonthday as unknown as number}
+                onChange={(newByMonthDay: number) => {
+                  let newOptions = buildBaseOptions(
+                    freq,
+                    dtstart,
+                    until as Date
+                  );
+
+                  onChange({ ...newOptions, bymonthday: newByMonthDay, interval });
                 }}
-                mode={repeatMode}
+                mode={mode}
               />
             </Grid>
           </Grid>

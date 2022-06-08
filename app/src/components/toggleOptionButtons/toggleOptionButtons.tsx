@@ -17,8 +17,8 @@ export const ToggleOptionButtons = <T extends unknown>(
       color='primary'
       exclusive={props.exclusive}
       value={props.value}
-      onChange={(event: React.MouseEvent<HTMLElement>, newMode: string) => {
-        props.onChange(newMode);
+      onChange={(event: React.MouseEvent<HTMLElement>, newValue: T) => {
+        props.onChange(newValue);
       }}
     >
       {options}
