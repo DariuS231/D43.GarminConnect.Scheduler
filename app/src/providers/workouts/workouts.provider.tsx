@@ -57,8 +57,8 @@ export const WorkoutsProvider = (
         method: "POST",
         body: JSON.stringify({
           date: `${date.getFullYear()}-${
-            date.getMonth() + 1
-          }-${date.getDate()}`,
+            (date.getMonth() + 1).toString().padStart(2, '0')
+          }-${date.getDate().toString().padStart(2, '0')}`,
         }),
         headers: {
           ...headers,

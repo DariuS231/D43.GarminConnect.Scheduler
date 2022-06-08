@@ -1,7 +1,7 @@
 {
-    "name": "Garmin Connect Workout Scheduller",
+    "name": "Garmin Connect Workout Scheduler",
     "action": {},
-    "description": "Garmin Connect Workout Scheduller",
+    "description": "Garmin Connect Workout Scheduler",
     "version": "1.0",
     "manifest_version": 3,
     "permissions": [
