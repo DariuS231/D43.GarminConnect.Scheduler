@@ -1,8 +1,8 @@
-import { RRule } from 'rrule';
+import { RRule, Options } from 'rrule';
 
 export interface IRRuleGeneratorRepeatProps {
   rrule: RRule;
-  onRruleChange: (rrule: RRule) => void;
+  onRruleChange: (newOptions: Partial<Options>) => void;
 }
 
 export interface IRRuleGeneratorRepeatDaily {

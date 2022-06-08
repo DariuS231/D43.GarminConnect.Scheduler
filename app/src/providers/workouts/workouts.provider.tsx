@@ -1,21 +1,28 @@
-import * as React from 'react';
-import { WorkoutsContext } from '.';
-import { IWorkout, IWorkoutsState } from './workouts.types';
-import { WORKOUTS_MOCK } from './workouts.mock';
+import * as React from "react";
+import { buildBaseOptions, WorkoutsContext } from ".";
+import { IWorkout, IWorkoutsState } from "./workouts.types";
+import { WORKOUTS_MOCK } from "./workouts.mock";
+import { Frequency, RRule, Options } from "rrule";
 
-export const WorkoutsProvider = (props: React.PropsWithChildren<unknown>): JSX.Element => {
+const cDate = new Date();
+const fDate = new Date();
+
+export const WorkoutsProvider = (
+  props: React.PropsWithChildren<unknown>
+): JSX.Element => {
   const [workoutsState, setWorkoutsState] = React.useState({
     selected: undefined,
     workouts: [],
-    isOpen: true
+    isOpen: true,
+    rrule: new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate)),
   } as IWorkoutsState);
 
-  const baseUrl = 'https://connect.garmin.com/modern/proxy/workout-service';
+  const baseUrl = "https://connect.garmin.com/modern/proxy/workout-service";
 
   const headers = {
-    nk: 'NT',
-    'x-app-ver': '4.54.0.14',
-    accept: 'application/json, text/plain, */*'
+    nk: "NT",
+    "x-app-ver": "4.54.0.14",
+    accept: "application/json, text/plain, */*",
   };
 
   const wait = async (ms: number) => {
@@ -24,7 +31,7 @@ export const WorkoutsProvider = (props: React.PropsWithChildren<unknown>): JSX.E
     });
   };
   const get = async () => {
-    if (window.location.href.startsWith('http://localhost:')) {
+    if (window.location.href.startsWith("http://localhost:")) {
       await wait(3000);
       setWorkoutsState({ ...workoutsState, workouts: WORKOUTS_MOCK });
       return;
@@ -38,44 +45,61 @@ export const WorkoutsProvider = (props: React.PropsWithChildren<unknown>): JSX.E
     setWorkoutsState({ ...workoutsState, workouts });
   };
 
-  const scheduleWorkout = async (workout: IWorkout, dates: Date[]) => {
-    const reqUrl = `${baseUrl}/schedule/${workout.workoutId}`;
+  const scheduleWorkouts = async () => {
+    const { selected, rrule } = workoutsState;
 
-    for (let i = 0; i < dates.length; i++) {
-      const date = dates[i];
+    const reqUrl = `${baseUrl}/schedule/${selected?.workoutId}`;
+
+    const allDates = rrule.all();
+
+    allDates.forEach(async (date) => {
       const resp = await fetch(reqUrl, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({
-          date: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+          date: `${date.getFullYear()}-${
+            date.getMonth() + 1
+          }-${date.getDate()}`,
         }),
         headers: {
           ...headers,
-          'Content-Type': 'application/json;charset=UTF-8'
-        }
+          "Content-Type": "application/json;charset=UTF-8",
+        },
       });
 
       const jsonResp = await resp.json();
       console.log(jsonResp);
-    }
+    });
   };
 
   const setSelected = (workout?: IWorkout) => {
-    setWorkoutsState({ ...workoutsState, selected: workout });
+    setWorkoutsState({
+      ...workoutsState,
+      selected: workout,
+      rrule: new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate)),
+    });
   };
 
   const closeApp = () => {
     setWorkoutsState({ ...workoutsState, isOpen: false });
+  };
+  const changeRruleOptions = (newOptions: Partial<Options>) => {
+    setWorkoutsState({ ...workoutsState, rrule: new RRule(newOptions) });
   };
 
   const value = {
     state: workoutsState,
     actions: {
       get,
-      scheduleWorkout,
+      scheduleWorkouts,
       setSelected,
-      closeApp
-    }
+      closeApp,
+      changeRruleOptions,
+    },
   };
 
-  return <WorkoutsContext.Provider value={value}>{props.children}</WorkoutsContext.Provider>;
+  return (
+    <WorkoutsContext.Provider value={value}>
+      {props.children}
+    </WorkoutsContext.Provider>
+  );
 };

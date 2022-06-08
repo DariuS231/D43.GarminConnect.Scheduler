@@ -15,7 +15,7 @@ export const RRuleGeneratorRepeat = (
   const { rrule, onRruleChange } = props;
 
   const onOptionsChange = (newOptions: Partial<Options>) => {
-    onRruleChange(new RRule(newOptions));
+    onRruleChange(newOptions);
   };
   return (
     <div>

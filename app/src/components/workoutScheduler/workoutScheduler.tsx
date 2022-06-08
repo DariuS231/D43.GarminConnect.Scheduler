@@ -7,7 +7,6 @@ import { RRuleGenerator } from '../rRuleGenerator';
 import './workoutScheduler.module.scss';
 
 export const WorkoutScheduler = (): JSX.Element => {
-  // const [rule, setRule] = React.useState('');
   const { actions, state } = React.useContext(WorkoutsContext);
 
   if (!state.selected) {

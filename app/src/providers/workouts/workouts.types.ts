@@ -1,3 +1,6 @@
+
+
+import { RRule, Options } from "rrule";
 export interface SportType {
   sportTypeId: number;
   sportTypeKey: string;
@@ -22,13 +25,15 @@ export interface IWorkoutsState {
   workouts: IWorkout[];
   selected?: IWorkout;
   isOpen: boolean;
+  rrule: RRule;
 }
 
 export interface IWorkoutsActions {
   get: () => Promise<void>;
   setSelected: (workout?: IWorkout) => void;
-  scheduleWorkout: (workout: IWorkout, dates: Date[]) => Promise<void>;
+  scheduleWorkouts: () => Promise<void>;
   closeApp: () => void;
+  changeRruleOptions: (newOptions: Partial<Options>) => void;
 }
 
 export interface IWorkoutsContext {
