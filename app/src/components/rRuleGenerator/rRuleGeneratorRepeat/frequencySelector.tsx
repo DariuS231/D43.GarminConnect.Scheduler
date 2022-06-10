@@ -1,19 +1,17 @@
-import * as React from "react";
-import { SelectChangeEvent } from "@mui/material/Select";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
-import { Frequency, RRule, Options } from "rrule";
-import { buildBaseOptions } from "../rRuleGenerator.utils";
+import * as React from 'react';
+import { SelectChangeEvent } from '@mui/material/Select';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import { Frequency, RRule, Options } from 'rrule';
+import { buildBaseOptions } from '../rRuleGenerator.utils';
 
 export interface IFrequencySelectorProps {
   rrule: RRule;
   onChange: (newOptions: Partial<Options>) => void;
 }
 
-export const FrequencySelector = (
-  props: IFrequencySelectorProps
-): JSX.Element => {
+export const FrequencySelector = (props: IFrequencySelectorProps): JSX.Element => {
   const { rrule, onChange } = props;
   const { freq, dtstart, until } = rrule.options;
 
@@ -36,21 +34,9 @@ export const FrequencySelector = (
   return (
     <div>
       <RadioGroup row value={freq} onChange={onFreqChange}>
-        <FormControlLabel
-          value={Frequency.DAILY}
-          control={<Radio />}
-          label="Daily"
-        />
-        <FormControlLabel
-          value={Frequency.WEEKLY}
-          control={<Radio />}
-          label="Weekly"
-        />
-        <FormControlLabel
-          value={Frequency.MONTHLY}
-          control={<Radio />}
-          label="Monthly"
-        />
+        <FormControlLabel value={Frequency.DAILY} control={<Radio />} label='Daily' />
+        <FormControlLabel value={Frequency.WEEKLY} control={<Radio />} label='Weekly' />
+        <FormControlLabel value={Frequency.MONTHLY} control={<Radio />} label='Monthly' />
       </RadioGroup>
     </div>
   );

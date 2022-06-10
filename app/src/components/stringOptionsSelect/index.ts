@@ -1,2 +1,2 @@
-export * from "./stringOptionsSelect";
-export * from "./stringOptionsSelect.types";
+export * from './stringOptionsSelect';
+export * from './stringOptionsSelect.types';

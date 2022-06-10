@@ -1,2 +1,2 @@
-export * from "./workoutsList";
-export * from "./workoutsList.types";
+export * from './workoutsList';
+export * from './workoutsList.types';

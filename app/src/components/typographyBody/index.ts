@@ -1,2 +1,2 @@
-export * from "./typographyBody";
-export * from "./typographyBody.types";
+export * from './typographyBody';
+export * from './typographyBody.types';

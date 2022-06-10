@@ -4,9 +4,9 @@ import Slide from '@mui/material/Slide';
 import { SxProps } from '@mui/system/styleFunctionSx';
 import { Theme } from '@mui/system';
 
-export const Transition = React.forwardRef(function Transition (
+export const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
-    children: React.ReactElement<any, any>;
+    children: React.ReactElement<unknown, string>;
   },
   ref: React.Ref<unknown>
 ) {

@@ -1,6 +1,4 @@
-
-
-import { RRule, Options } from "rrule";
+import { RRule, Options } from 'rrule';
 export interface SportType {
   sportTypeId: number;
   sportTypeKey: string;

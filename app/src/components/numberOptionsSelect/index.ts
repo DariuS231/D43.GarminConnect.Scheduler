@@ -1,2 +1,2 @@
-export * from "./numberOptionsSelect";
-export * from "./numberOptionsSelect.types";
+export * from './numberOptionsSelect';
+export * from './numberOptionsSelect.types';

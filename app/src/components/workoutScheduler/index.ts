@@ -1,2 +1,1 @@
-export * from "./workoutScheduler";
-export * from "./workoutScheduler.types";
+export * from './workoutScheduler';

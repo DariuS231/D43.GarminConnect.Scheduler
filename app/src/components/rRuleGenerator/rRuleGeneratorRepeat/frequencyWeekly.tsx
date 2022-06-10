@@ -1,9 +1,9 @@
-import * as React from "react";
-import { Frequency, RRule, Options } from "rrule";
-import { NumberOptionsSelect } from "../../numberOptionsSelect";
-import { ToggleOptionButtons } from "../../toggleOptionButtons";
-import { TypographyBody } from "../../typographyBody";
-import { buildBaseOptions } from "../rRuleGenerator.utils";
+import * as React from 'react';
+import { Frequency, RRule, Options } from 'rrule';
+import { NumberOptionsSelect } from '../../numberOptionsSelect';
+import { ToggleOptionButtons } from '../../toggleOptionButtons';
+import { TypographyBody } from '../../typographyBody';
+import { buildBaseOptions } from '../rRuleGenerator.utils';
 
 export interface IFrequencyWeeklyProps {
   rrule: RRule;
@@ -19,26 +19,23 @@ export const FrequencyWeekly = (props: IFrequencyWeeklyProps): JSX.Element => {
   }
 
   const options = [
-    { key: 0, displayName: "Mon" },
-    { key: 1, displayName: "Tue" },
-    { key: 2, displayName: "Wed" },
-    { key: 3, displayName: "Thu" },
-    { key: 4, displayName: "Fri" },
-    { key: 5, displayName: "Sat" },
-    { key: 6, displayName: "Sun" },
+    { key: 0, displayName: 'Mon' },
+    { key: 1, displayName: 'Tue' },
+    { key: 2, displayName: 'Wed' },
+    { key: 3, displayName: 'Thu' },
+    { key: 4, displayName: 'Fri' },
+    { key: 5, displayName: 'Sat' },
+    { key: 6, displayName: 'Sun' }
   ];
   return (
     <div>
-      <TypographyBody
-        prefix="Repeat every"
-        sufix={interval > 1 ? "Weeks" : "Week"}
-      >
+      <TypographyBody prefix='Repeat every' sufix={interval > 1 ? 'Weeks' : 'Week'}>
         <NumberOptionsSelect
           optionsCount={52}
           value={interval.toString()}
           onChange={(value: string) => {
             const newInterval = parseInt(value);
-            let newOptions = buildBaseOptions(freq, dtstart, until as Date);
+            const newOptions = buildBaseOptions(freq, dtstart, until as Date);
             onChange({ ...newOptions, interval: newInterval });
           }}
         />
@@ -46,7 +43,7 @@ export const FrequencyWeekly = (props: IFrequencyWeeklyProps): JSX.Element => {
       <ToggleOptionButtons
         value={byweekday}
         onChange={(newByWeekDay: number | number[]) => {
-          let newOptions = buildBaseOptions(freq, dtstart, until as Date);
+          const newOptions = buildBaseOptions(freq, dtstart, until as Date);
           onChange({ ...newOptions, byweekday: newByWeekDay });
         }}
         options={options}

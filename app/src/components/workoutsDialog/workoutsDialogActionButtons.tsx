@@ -14,7 +14,11 @@ export const WorkoutsDialogActionButtons = (
   return (
     <DialogActions>
       {onCancelClick && <Button onClick={props.onCancelClick}>Cancel</Button>}
-      {onSaveClick && <Button onClick={props.onSaveClick} disabled={props.disableSaveButton}>Save</Button>}
+      {onSaveClick && (
+        <Button onClick={props.onSaveClick} disabled={props.disableSaveButton}>
+          Save
+        </Button>
+      )}
     </DialogActions>
   );
 };

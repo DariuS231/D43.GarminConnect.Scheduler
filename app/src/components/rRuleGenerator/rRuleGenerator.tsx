@@ -1,17 +1,17 @@
-import * as React from "react";
-import { RRuleGeneratorRepeat } from "./rRuleGeneratorRepeat";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { RRuleGeneratorDatePicker } from "./rRuleGeneratorDatePicker";
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Grid from "@mui/material/Grid";
-import { Options } from "rrule";
-import { RRuleGeneratorSectionTitle } from "./rRuleGeneratorSectionTitle";
-import Typography from "@mui/material/Typography";
+import * as React from 'react';
+import { RRuleGeneratorRepeat } from './rRuleGeneratorRepeat';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { RRuleGeneratorDatePicker } from './rRuleGeneratorDatePicker';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import { Options } from 'rrule';
+import { RRuleGeneratorSectionTitle } from './rRuleGeneratorSectionTitle';
+import Typography from '@mui/material/Typography';
+import { WorkoutsContext } from '../../providers/workouts';
 
-import "./rRuleGenerator.module.scss";
-import { WorkoutsContext } from "../../providers/workouts";
+import './rRuleGenerator.module.scss';
 
 const cDate = new Date();
 const fDate = new Date();
@@ -19,18 +19,17 @@ const fDate = new Date();
 fDate.setMonth(cDate.getMonth() + 1);
 
 export const RRuleGenerator = (): JSX.Element => {
-  
   const { actions, state } = React.useContext(WorkoutsContext);
   const { rrule } = state;
   const { dtstart, until } = rrule.options;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{ width: '100%' }}>
         <Box sx={{ flexGrow: 1, paddingBottom: 3 }}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <RRuleGeneratorSectionTitle title="Start" />
+              <RRuleGeneratorSectionTitle title='Start' />
             </Grid>
             <Grid item xs={1}></Grid>
             <Grid item xs={11}>
@@ -45,11 +44,11 @@ export const RRuleGenerator = (): JSX.Element => {
             </Grid>
           </Grid>
         </Box>
-        <Divider variant="fullWidth" />
+        <Divider variant='fullWidth' />
         <Box sx={{ flexGrow: 1, paddingBottom: 3, paddingTop: 2 }}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <RRuleGeneratorSectionTitle title="Repeat" />
+              <RRuleGeneratorSectionTitle title='Repeat' />
             </Grid>
             <Grid item xs={1}></Grid>
             <Grid item xs={11}>
@@ -62,11 +61,11 @@ export const RRuleGenerator = (): JSX.Element => {
             </Grid>
           </Grid>
         </Box>
-        <Divider variant="fullWidth" />
+        <Divider variant='fullWidth' />
         <Box sx={{ flexGrow: 1, paddingTop: 2 }}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <RRuleGeneratorSectionTitle title="End" />
+              <RRuleGeneratorSectionTitle title='End' />
             </Grid>
             <Grid item xs={1}></Grid>
             <Grid item xs={11}>
@@ -82,17 +81,17 @@ export const RRuleGenerator = (): JSX.Element => {
             </Grid>
           </Grid>
         </Box>
-        <Divider variant="fullWidth" />
+        <Divider variant='fullWidth' />
         <Box sx={{ flexGrow: 1, paddingTop: 2 }}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <Typography variant="body1" gutterBottom>
+              <Typography variant='body1' gutterBottom>
                 {rrule.toText()}
               </Typography>
-              <Typography variant="body1" gutterBottom>
+              <Typography variant='body1' gutterBottom>
                 <ul>
-                  {rrule.all().map((a) => (
-                    <li>{a.toDateString()}</li>
+                  {rrule.all().map((a, i) => (
+                    <li key={i}>{a.toDateString()}</li>
                   ))}
                 </ul>
               </Typography>

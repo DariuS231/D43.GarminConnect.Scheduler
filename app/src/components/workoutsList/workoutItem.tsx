@@ -37,10 +37,7 @@ export const WorkoutItem = (props: IWorkoutItemProps): JSX.Element => {
           <FitnessCenter />
         </Avatar>
       </ListItemAvatar>
-      <ListItemText
-        primary={workout.workoutName}
-        secondary={workout.description}
-      />
+      <ListItemText primary={workout.workoutName} secondary={workout.description} />
     </ListItem>
   );
 };

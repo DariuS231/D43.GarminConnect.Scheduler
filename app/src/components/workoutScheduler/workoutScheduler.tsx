@@ -33,7 +33,6 @@ export const WorkoutScheduler = (): JSX.Element => {
     return false;
   };
 
-
   return (
     <WorkoutsDialog
       title={`Schedule ${state.selected?.workoutName}`}

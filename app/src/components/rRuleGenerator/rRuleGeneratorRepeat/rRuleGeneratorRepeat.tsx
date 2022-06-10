@@ -1,17 +1,14 @@
-import * as React from "react";
-import { IRRuleGeneratorRepeatProps } from ".";
-import { FrequencyDaily } from "./frequencyDaily";
-import { FrequencySelector } from "./frequencySelector";
-import { FrequencyWeekly } from "./frequencyWeekly";
-import { RRule, Options } from "rrule";
+import * as React from 'react';
+import { IRRuleGeneratorRepeatProps } from '.';
+import { FrequencyDaily } from './frequencyDaily';
+import { FrequencySelector } from './frequencySelector';
+import { FrequencyWeekly } from './frequencyWeekly';
+import { Options } from 'rrule';
 
-import "./rRuleGeneratorRepeat.module.scss";
-import { FrequencyMonthly } from "./frequencyMonthly";
+import './rRuleGeneratorRepeat.module.scss';
+import { FrequencyMonthly } from './frequencyMonthly';
 
-export const RRuleGeneratorRepeat = (
-  props: IRRuleGeneratorRepeatProps
-): JSX.Element => {
-  
+export const RRuleGeneratorRepeat = (props: IRRuleGeneratorRepeatProps): JSX.Element => {
   const { rrule, onRruleChange } = props;
 
   const onOptionsChange = (newOptions: Partial<Options>) => {

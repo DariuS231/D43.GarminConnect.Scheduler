@@ -9,7 +9,7 @@ export const LoadingProvider = (props: React.PropsWithChildren<ILoadingProps>): 
     isLoading: true
   } as ILoadingState);
 
-  const show = React.useCallback((message?: string, className?: string) => {
+  const show = React.useCallback((message?: string) => {
     setLoadingState({
       message: message || defaultMessageText,
       isLoading: true

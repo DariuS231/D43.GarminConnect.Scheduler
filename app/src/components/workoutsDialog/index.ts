@@ -1,2 +1,2 @@
-export * from "./workoutsDialog";
-export * from "./workoutsDialog.types";
+export * from './workoutsDialog';
+export * from './workoutsDialog.types';

@@ -5,7 +5,7 @@ export interface ILoadingState {
 export interface ILoadingContext {
   state: ILoadingState;
   actions: {
-    show: (message?: string, className?: string) => void;
+    show: (message?: string) => void;
     hide: () => void;
   };
 }
