@@ -11,7 +11,7 @@ export const WorkoutsProvider = (props: React.PropsWithChildren<unknown>): JSX.E
   const [workoutsState, setWorkoutsState] = React.useState({
     selected: undefined,
     workouts: [],
-    isOpen: true,
+    isOpen: false,
     rrule: new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate))
   } as IWorkoutsState);
 
@@ -88,6 +88,11 @@ export const WorkoutsProvider = (props: React.PropsWithChildren<unknown>): JSX.E
   const closeApp = () => {
     setWorkoutsState({ ...workoutsState, isOpen: false });
   };
+
+  const openApp = () => {
+    setWorkoutsState({ ...workoutsState, isOpen: true });
+  };
+
   const changeRruleOptions = (newOptions: Partial<Options>) => {
     setWorkoutsState({ ...workoutsState, rrule: new RRule(newOptions) });
   };
@@ -99,6 +104,7 @@ export const WorkoutsProvider = (props: React.PropsWithChildren<unknown>): JSX.E
       scheduleWorkouts,
       setSelected,
       closeApp,
+      openApp,
       changeRruleOptions
     }
   };

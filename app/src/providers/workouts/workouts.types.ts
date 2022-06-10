@@ -31,6 +31,7 @@ export interface IWorkoutsActions {
   setSelected: (workout?: IWorkout) => void;
   scheduleWorkouts: () => Promise<void>;
   closeApp: () => void;
+  openApp: () => void;
   changeRruleOptions: (newOptions: Partial<Options>) => void;
 }
 

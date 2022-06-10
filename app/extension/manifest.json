@@ -7,7 +7,7 @@
         "activeTab"
     ],
     "content_scripts": [{
-        "matches": ["https://https://connect.garmin.com/*"],
+        "matches": ["https://connect.garmin.com/*"],
         "css": ["index.css"],
         "js": ["index.js"]
     }]
