@@ -1,18 +1,20 @@
-import * as React from 'react';
-import { IStringOptionsSelectProps } from '.';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
+import * as React from "react";
+import { IStringOptionsSelectProps } from ".";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
-import './stringOptionsSelect.module.scss';
+import * as classes from "./stringOptionsSelect.module.scss";
 
-export const StringOptionsSelect = (props: IStringOptionsSelectProps): JSX.Element => {
+export const StringOptionsSelect = (
+  props: IStringOptionsSelectProps
+): JSX.Element => {
   const { options, value, onChange } = props;
 
   const optionElements = options.map((i) => {
     let key;
     let value;
-    if (typeof i === 'string') {
+    if (typeof i === "string") {
       key = i;
       value = i;
     } else {
@@ -26,18 +28,20 @@ export const StringOptionsSelect = (props: IStringOptionsSelectProps): JSX.Eleme
     );
   });
 
-  const selectValue = typeof value === 'string' ? value : value.value;
+  const selectValue = typeof value === "string" ? value : value.value;
 
   return (
-    <FormControl variant='standard' sx={{ m: 1 }}>
-      <Select
-        value={selectValue}
-        onChange={(event: SelectChangeEvent) => {
-          onChange(event.target.value);
-        }}
-      >
-        {optionElements}
-      </Select>
-    </FormControl>
+    <div className={classes.stringOptionsSelect}>
+      <FormControl variant="standard" sx={{ m: 1 }}>
+        <Select
+          value={selectValue}
+          onChange={(event: SelectChangeEvent) => {
+            onChange(event.target.value);
+          }}
+        >
+          {optionElements}
+        </Select>
+      </FormControl>
+    </div>
   );
 };
