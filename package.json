@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "npm run clean lint",
     "build": "parcel build app/index.html",
-    "buildChrome": "parcel build app/index.html --no-source-maps",
+    "buildChrome": "parcel build --no-content-hash app/src/index.tsx --no-source-maps",
     "clean": "rimraf ./dist",
     "lint": "npm run lint:code",
     "lint:code": "eslint --ext ts,tsx src",
