@@ -1,14 +1,14 @@
 {
     "name": "Garmin Connect Workout Scheduler",
-    "action": {},
     "description": "Garmin Connect Workout Scheduler",
     "version": "1.0",
     "manifest_version": 3,
     "permissions": [
-        "activeTab",
-        "scripting"
+        "activeTab"
     ],
-    "background": {
-        "service_worker": "content.js"
-    }
+    "content_scripts": [{
+        "matches": ["https://https://connect.garmin.com/*"],
+        "css": ["index.css"],
+        "js": ["index.js"]
+    }]
 }

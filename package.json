@@ -6,7 +6,9 @@
   "scripts": {
     "prebuild": "npm run clean lint",
     "build": "parcel build app/index.html",
-    "buildChrome": "parcel build --no-content-hash app/src/index.tsx --no-source-maps",
+    "buildJs": "parcel build --no-content-hash app/src/index.tsx --no-source-maps",
+    "package:chrome": "npm run prebuild && npm run buildJs && npm run copy:chrome",
+    "copy:chrome": "npx copyfiles -f ./app/extension/* ./dist/",
     "clean": "rimraf ./dist",
     "lint": "npm run lint:code",
     "lint:code": "eslint --ext ts,tsx src",
@@ -16,10 +18,12 @@
   "license": "ISC",
   "devDependencies": {
     "@parcel/transformer-sass": "^2.6.0",
+    "@types/chrome": "^0.0.190",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.16.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
