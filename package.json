@@ -12,7 +12,8 @@
     "clean": "rimraf ./dist",
     "lint": "npm run lint:code",
     "lint:code": "eslint --ext ts,tsx src",
-    "start": "parcel app/index.html --open"
+    "start": "parcel app/index.html --open",
+    "zip": "npm-build-zip --source=dist"
   },
   "author": "",
   "license": "ISC",
@@ -31,6 +32,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
+    "npm-build-zip": "^1.0.3",
     "parcel": "^2.6.0",
     "parcel-bundler": "^1.12.5",
     "sass": "^1.52.1",
