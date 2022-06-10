@@ -1,6 +1,6 @@
 {
   "name": "d43.garminconnect.scheduler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "source": "app/src/index.html",
   "scripts": {
