@@ -24,12 +24,18 @@ export const WorkoutScheduler = (): JSX.Element => {
   };
 
   const onSaveClick = async (event: React.MouseEvent<HTMLElement>): Promise<boolean> => {
+    if(allDates.length <= 0){
+      return false;
+    }
+
     event.stopPropagation();
     event.preventDefault();
     loadingCtx.actions.show('Scheduling workouts');
     await actions.scheduleWorkouts();
     actions.setSelected();
     loadingCtx.actions.hide();
+    const firstDate = allDates[0];
+    window.location.href = `https://connect.garmin.com/modern/calendar/${firstDate.getFullYear()}/${firstDate.getMonth()}`
     return false;
   };
 
