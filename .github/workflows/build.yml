@@ -24,7 +24,7 @@ jobs:
     - run: npm ci
     - run: npm run package:chrome
     - name: Update dist/manifest.json
-      run: echo "`jq '.version="1.0.${env:GITHUB_RUN_NUMBER}"' dist/manifest.json`" > dist/manifest.json
+      run: echo "`jq '.version="1.0.${{env:GITHUB_RUN_NUMBER}}"' dist/manifest.json`" > dist/manifest.json
     - name: read dist/manifest.json
       run: cat dist/manifest.json
     - name: Archive artifacts
