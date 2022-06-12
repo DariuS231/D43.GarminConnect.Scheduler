@@ -23,10 +23,13 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run package:chrome
-    - name: Update dist\manifest.json
-      run: echo "`jq '.version="1.0.${GITHUB_RUN_NUMBER}"' dist\manifest.json`" > dist\manifest.json
-    - name: read dist\manifest.json
-      run: cat dist\manifest.json
+    - name: Update dist/manifest.json
+      run: |
+        $version = "1.0."+$Env:GITHUB_RUN_NUMBER
+        echo $version
+        echo "`jq '.version="$version"' dist/manifest.json`" > dist/manifest.json
+    - name: read dist/manifest.json
+      run: cat dist/manifest.json
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
