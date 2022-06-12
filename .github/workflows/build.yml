@@ -1,0 +1,34 @@
+name: Build extension
+
+on:
+  push:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run package:chrome
+    - name: Update dist\manifest.json
+      run: echo "`jq '.version="1.0.${GITHUB_RUN_NUMBER}"' dist\manifest.json`" > dist\manifest.json
+    - name: read dist\manifest.json
+      run: cat dist\manifest.json
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: |
+          dist

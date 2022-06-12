@@ -24,7 +24,10 @@ export const RRuleGeneratorDatePicker = (
         label={props.label}
         value={props.value}
         onChange={props.onChange}
-        renderInput={(params) => <TextField {...params} />}
+        renderInput={(params) => {
+          params["aria-readonly"] = true;
+          return <TextField {...params} />;
+        }}
       />
     </div>
   );
