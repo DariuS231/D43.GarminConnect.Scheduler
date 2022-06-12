@@ -5,11 +5,11 @@ import { SchedulerSpeedDial } from './components/schedulerSpeedDial';
 import { LoadingProvider } from './providers/loading';
 import { WorkoutsProvider } from './providers/workouts';
 
-const container = document.createElement('div');
-container.setAttribute('id', 'root-chrome-ext');
-document.body.appendChild(container);
+const element = document.createElement('div');
+element.setAttribute('id', 'root-chrome-ext');
+document.body.appendChild(element);
 
-const root = createRoot(container);
+const root = createRoot(element);
 
 root.render(
   <WorkoutsProvider>
