@@ -29,12 +29,12 @@ jobs:
       run: echo "`jq '.version="${{env.VERSION}}"' dist/manifest.json`" > dist/manifest.json
     - name: read dist/manifest.json
       run: cat dist/manifest.json
-    - name: Archive artifacts
-      uses: actions/upload-artifact@v3
+    - name: Archive Release
+      uses: thedoctor0/zip-release@main
       with:
-        name: GarminConnect.Scheduler_${{env.VERSION}}
-        path: |
-          dist
+        type: 'zip'
+        path: dist
+        filename: GarminConnect.Scheduler_${{env.VERSION}}.zip
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -45,10 +45,6 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
-    - name: Download Artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: GarminConnect.Scheduler_${{env.VERSION}}
     - name: Upload Release Asset
       id: upload-release-asset 
       uses: actions/upload-release-asset@v1
