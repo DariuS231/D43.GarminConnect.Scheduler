@@ -6,7 +6,6 @@ on:
       - master
 env:
   VERSION: 1.0.${{github.run_number}}
-  ARTIFACT_NAME: GarminConnect.Scheduler_${{env.VERSION}}
 
 jobs:
   build:
@@ -33,7 +32,7 @@ jobs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: ${{env.ARTIFACT_NAME}}
+        name: GarminConnect.Scheduler_${{env.VERSION}}
         path: |
           dist
     - name: Create Release
@@ -53,6 +52,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
       with:
         upload_url: ${{ github.event.release.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./${{env.ARTIFACT_NAME}}.zip
-        asset_name: ${{env.ARTIFACT_NAME}}.zip
+        asset_path: ./GarminConnect.Scheduler_${{env.VERSION}}.zip
+        asset_name: GarminConnect.Scheduler_${{env.VERSION}}.zip
         asset_content_type: application/zip
