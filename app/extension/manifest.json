@@ -3,12 +3,15 @@
     "description": "Garmin Connect Workout Scheduler",
     "version": "1.0",
     "manifest_version": 3,
-    "permissions": [
-        "activeTab"
-    ],
     "content_scripts": [{
         "matches": ["https://connect.garmin.com/*"],
         "css": ["index.css"],
         "js": ["index.js"]
-    }]
+    }],
+    "icons": {
+      "16": "16x16.png",
+      "32": "32x32.png",
+      "48": "48x48.png",
+      "128": "128x128.png"
+    }
 }
