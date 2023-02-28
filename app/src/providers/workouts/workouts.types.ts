@@ -40,4 +40,6 @@ export interface IWorkoutsContext {
   actions: IWorkoutsActions;
 }
 
+export interface IScheduleWorkoutsBody { date: string }
+
 // export interface IWorkoutsProps { }
