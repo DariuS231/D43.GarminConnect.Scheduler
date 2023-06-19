@@ -40,11 +40,22 @@ export const GarminApiProvider = (
     return jsonResp;
   };
 
+  const remove = async (url: string): Promise<void> => {
+    const resp = await fetch(`${baseUrl}${url}`, {
+      method: "DELETE",
+      headers: {
+        ...headers,
+      },
+    });
+
+    await resp.json();
+  };
+
   const value = {
     state: {
       isLocalHost: window.location.href.startsWith("http://localhost:"),
     },
-    actions: { get, wait, post },
+    actions: { get, wait, post, remove },
   };
 
   return (

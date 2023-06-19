@@ -4,6 +4,7 @@ import { WorkoutScheduler } from '../workoutScheduler';
 import { WorkoutsContext } from '../../providers/workouts';
 
 import './app.module.scss';
+import { ActivitiesChart } from '../activitiesChart';
 
 export const App = (): JSX.Element => {
   const { state } = React.useContext(WorkoutsContext);
@@ -14,8 +15,9 @@ export const App = (): JSX.Element => {
 
   return (
     <>
-      <WorkoutsList />
-      <WorkoutScheduler />
+    <ActivitiesChart />
+      {/* <WorkoutsList />
+      <WorkoutScheduler /> */}
     </>
   );
 };
