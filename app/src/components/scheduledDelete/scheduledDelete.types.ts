@@ -1,1 +1,1 @@
-export interface IActivitiesChartProps { }
+export interface IScheduledDeleteProps { }
