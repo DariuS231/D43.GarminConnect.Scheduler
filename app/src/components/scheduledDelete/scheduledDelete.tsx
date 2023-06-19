@@ -4,7 +4,13 @@ import { WorkoutsDialog } from "../workoutsDialog";
 import { LoadingContext } from "../../providers/loading";
 import { alpha } from "@mui/material/styles";
 import {
+  Button,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   FormControl,
   Grid,
   IconButton,
@@ -23,11 +29,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import {
-  ScheduleContext,
-  ICalendarMonth,
-  ICalendarItem,
-} from "../../providers/schedule";
+import { ScheduleContext, ICalendarItem } from "../../providers/schedule";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const currentDt: Date = new Date();
@@ -49,6 +51,15 @@ export const ActivitiesChart = (props: IActivitiesChartProps): JSX.Element => {
 
   const [items, setItems] = React.useState([] as ICalendarItem[]);
   const [selectedIds, setSelectedIds] = React.useState([] as number[]);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   React.useEffect(() => {
     loadingCtx.actions.show();
@@ -129,11 +140,49 @@ export const ActivitiesChart = (props: IActivitiesChartProps): JSX.Element => {
                   >
                     {selectedIds.length} selected
                   </Typography>
-                  <Tooltip title="Delete">
-                    <IconButton>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Tooltip>
+                  <>
+                    <Tooltip title="Delete">
+                      <IconButton onClick={handleClickOpen}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Dialog
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        {"Use Google's location service?"}
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          Are you sure you want to delete the selected workouts?
+                          <ul>
+                            {selectedIds.map((sid) => {
+                              const workout = items.find((i) => i.id === sid);
+                              if (workout)
+                                return (
+                                  <li>
+                                    {new Date(
+                                      workout?.date
+                                    ).toLocaleDateString()}{" "}
+                                    - {workout?.title}
+                                  </li>
+                                );
+                            })}
+                          </ul>
+                          This action is irreversible.
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button onClick={handleClose} autoFocus>
+                          OK
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </>
                 </>
               ) : (
                 <>
