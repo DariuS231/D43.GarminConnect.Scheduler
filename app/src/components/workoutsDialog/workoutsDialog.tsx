@@ -6,16 +6,16 @@ import CloseIcon from "@mui/icons-material/Close";
 import DialogContent from "@mui/material/DialogContent";
 import { IWorkoutsDialog } from "./workoutsDialog.types";
 import { Transition, systemProps } from "./workoutsDialog.utils";
-import { WorkoutsContext } from "../../providers/workouts";
 import { WorkoutsDialogActionButtons } from "./workoutsDialogActionButtons";
 import { Loading, LoadingContext } from "../../providers/loading";
 
 import "./workoutsDialog.module.scss";
+import { AppContext } from "../app";
 
 export const WorkoutsDialog = (
   props: React.PropsWithChildren<IWorkoutsDialog>
 ): JSX.Element => {
-  const { actions } = React.useContext(WorkoutsContext);
+  const { actions } = React.useContext(AppContext);
   const loadingCtx = React.useContext(LoadingContext);
 
   const onCloseCLick = () => {

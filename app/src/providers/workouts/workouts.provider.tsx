@@ -19,7 +19,6 @@ export const WorkoutsProvider = (
   const [workoutsState, setWorkoutsState] = React.useState({
     selected: undefined,
     workouts: [],
-    isOpen: false,
     rrule: new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate)),
   } as IWorkoutsState);
 
@@ -68,14 +67,6 @@ export const WorkoutsProvider = (
     });
   };
 
-  const closeApp = () => {
-    setWorkoutsState({ ...workoutsState, isOpen: false });
-  };
-
-  const openApp = () => {
-    setWorkoutsState({ ...workoutsState, isOpen: true });
-  };
-
   const changeRruleOptions = (newOptions: Partial<Options>) => {
     setWorkoutsState({ ...workoutsState, rrule: new RRule(newOptions) });
   };
@@ -86,8 +77,6 @@ export const WorkoutsProvider = (
       get,
       scheduleWorkouts,
       setSelected,
-      closeApp,
-      openApp,
       changeRruleOptions,
     },
   };

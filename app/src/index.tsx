@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { App } from "./components/app";
+import { App, AppProvider } from "./components/app";
 import { SchedulerSpeedDial } from "./components/schedulerSpeedDial";
 import { ActivitiesProvider } from "./providers/activities";
 import { GarminApiProvider } from "./providers/garminApi";
@@ -16,15 +16,11 @@ const root = createRoot(element);
 
 root.render(
   <GarminApiProvider>
-    <WorkoutsProvider>
-      <ScheduleProvider>
-      <ActivitiesProvider>
+      <AppProvider>
         <LoadingProvider>
           <App />
           <SchedulerSpeedDial />
         </LoadingProvider>
-      </ActivitiesProvider>
-      </ScheduleProvider>
-    </WorkoutsProvider>
+      </AppProvider>
   </GarminApiProvider>
 );
