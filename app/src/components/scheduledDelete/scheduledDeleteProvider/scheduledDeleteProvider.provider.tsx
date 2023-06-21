@@ -28,8 +28,8 @@ export const ScheduledDeleteProviderProvider = (
         setSelectedIds(value);
       },
       setItems: (value: ICalendarItem[]) => {
-        console.log(value)
         setItems(value);
+        setSelectedIds([]);
       },
     },
   };

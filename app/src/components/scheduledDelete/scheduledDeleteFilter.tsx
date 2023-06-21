@@ -5,7 +5,6 @@ import { getMonthName } from "./utils";
 
 const currentDt: Date = new Date();
 const currentYear: number = currentDt.getFullYear();
-const currentMonth: number = currentDt.getMonth();
 
 export interface IScheduledDeleteFilterProps {}
 
@@ -50,7 +49,7 @@ export const ScheduledDeleteFilter = (
               label="Month"
               onChange={handleMonthChange}
             >
-              {[...Array(10)].map((_, n) => (
+              {[...Array(12)].map((_, n) => (
                 <MenuItem value={n}>{getMonthName(n)}</MenuItem>
               ))}
             </Select>

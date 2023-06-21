@@ -40,7 +40,7 @@ export const ScheduledDeleteTableRow = (
         />
       </TableCell>
       <TableCell align="left">
-        {new Date(item.date).toLocaleDateString()}
+        {item.localDate.toLocaleDateString()}
       </TableCell>
       <TableCell align="left">{item.sportTypeKey}</TableCell>
       <TableCell component="th" scope="row">

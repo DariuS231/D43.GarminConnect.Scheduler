@@ -54,8 +54,6 @@ export const WorkoutsProvider = (
         `/workout-service/schedule/${selected.workoutId}`,
         body
       );
-
-      console.log(newItem);
     }
   };
 

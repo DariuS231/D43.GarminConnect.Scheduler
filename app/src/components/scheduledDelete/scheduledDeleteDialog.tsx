@@ -12,15 +12,17 @@ import { ScheduledDeleteProviderContext } from "./scheduledDeleteProvider/schedu
 
 export interface IScheduledDeleteDialogProps {
   handleClose: () => void;
+  handleOk: () => void;
 }
 
 export const ScheduledDeleteDialog = (
   props: IScheduledDeleteDialogProps
 ): JSX.Element => {
-  const { state, actions } = React.useContext(ScheduledDeleteProviderContext);
+  const { state } = React.useContext(ScheduledDeleteProviderContext);
   const { selectedIds, items } = state;
 
-  const { handleClose } = props;
+  const { handleClose, handleOk } = props;
+
   return (
     <Dialog
       open={true}
@@ -40,8 +42,7 @@ export const ScheduledDeleteDialog = (
               if (workout)
                 return (
                   <li>
-                    {new Date(workout?.date).toLocaleDateString()} -{" "}
-                    {workout?.title}
+                    {workout?.localDate.toLocaleDateString()} - {workout?.title}
                   </li>
                 );
             })}
@@ -50,7 +51,7 @@ export const ScheduledDeleteDialog = (
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose} autoFocus>
+        <Button onClick={handleOk} autoFocus>
           OK
         </Button>
       </DialogActions>

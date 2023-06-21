@@ -47,8 +47,6 @@ export const GarminApiProvider = (
         ...headers,
       },
     });
-
-    await resp.json();
   };
 
   const value = {

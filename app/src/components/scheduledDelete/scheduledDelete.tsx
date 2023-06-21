@@ -12,23 +12,15 @@ export const ScheduledDelete = (props: IScheduledDeleteProps): JSX.Element => {
   const scheduleCtx = React.useContext(ScheduleContext);
   const scheduledDeleteCtx = React.useContext(ScheduledDeleteProviderContext);
 
+  const { selectedYear, selectedMonth } = scheduledDeleteCtx.state;
+
   React.useEffect(() => {
     loadingCtx.actions.show();
-    scheduleCtx.actions
-      .getAll(
-        scheduledDeleteCtx.state.selectedYear,
-        scheduledDeleteCtx.state.selectedMonth
-      )
-      .then((cal) => {
-        scheduledDeleteCtx.actions.setItems(
-          cal.calendarItems.filter((ci) => ci.itemType === "workout")
-        );
-        loadingCtx.actions.hide();
-      });
-  }, [
-    scheduledDeleteCtx.state.selectedYear,
-    scheduledDeleteCtx.state.selectedMonth,
-  ]);
+    scheduleCtx.actions.getAll(selectedYear, selectedMonth).then((cal) => {
+      scheduledDeleteCtx.actions.setItems(cal.calendarItems);
+      loadingCtx.actions.hide();
+    });
+  }, [selectedYear, selectedMonth]);
 
   return (
     <WorkoutsDialog title="Scheduled workouts" maxWidth="lg">

@@ -1,5 +1,10 @@
 import * as React from "react";
-import { ScheduleContext, IScheduleProps, ICalendarMonth } from ".";
+import {
+  ScheduleContext,
+  IScheduleProps,
+  ICalendarMonth,
+  ICalendarItem,
+} from ".";
 import { GarminApiContext } from "../garminApi";
 
 export const ScheduleProvider = (
@@ -11,14 +16,24 @@ export const ScheduleProvider = (
     year: number,
     month: number
   ): Promise<ICalendarMonth> => {
-    const activities = await actions.get<ICalendarMonth>(
+    const cal = await actions.get<ICalendarMonth>(
       `/calendar-service/year/${year}/month/${month}`
     );
 
-    return activities;
+    let newItems: ICalendarItem[] = [];
+    cal.calendarItems.forEach((ci) => {
+      if (ci.itemType === "workout") {
+        ci.localDate = new Date(ci.date);
+        if (ci.localDate.getMonth() === month) {
+          newItems.push(ci);
+        }
+      }
+    });
+    return { ...cal, calendarItems: newItems };
   };
+
   const remove = async (id: number): Promise<void> => {
-    await actions.remove(`/schedule/${id}`);
+    await actions.remove(`/workout-service/schedule/${id}`);
   };
 
   const value = {

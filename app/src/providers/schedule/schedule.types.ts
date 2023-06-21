@@ -26,6 +26,7 @@ export interface ICalendarItem {
   wellnessActivityUuid: any;
   title: string;
   date: string;
+  localDate: Date;
   duration?: number;
   distance?: number;
   calories?: number;
