@@ -22,7 +22,6 @@ export interface IWorkout {
 export interface IWorkoutsState {
   workouts: IWorkout[];
   selected?: IWorkout;
-  isOpen: boolean;
   rrule: RRule;
 }
 
@@ -30,8 +29,6 @@ export interface IWorkoutsActions {
   get: () => Promise<void>;
   setSelected: (workout?: IWorkout) => void;
   scheduleWorkouts: () => Promise<void>;
-  closeApp: () => void;
-  openApp: () => void;
   changeRruleOptions: (newOptions: Partial<Options>) => void;
 }
 
@@ -39,5 +36,7 @@ export interface IWorkoutsContext {
   state: IWorkoutsState;
   actions: IWorkoutsActions;
 }
+
+export interface IScheduleWorkoutsBody { date: string }
 
 // export interface IWorkoutsProps { }

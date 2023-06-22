@@ -1,36 +1,39 @@
-import * as React from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import DialogContent from '@mui/material/DialogContent';
-import { IWorkoutsDialog } from './workoutsDialog.types';
-import { Transition, systemProps } from './workoutsDialog.utils';
-import { WorkoutsContext } from '../../providers/workouts';
-import { WorkoutsDialogActionButtons } from './workoutsDialogActionButtons';
-import { Loading, LoadingContext } from '../../providers/loading';
+import * as React from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import DialogContent from "@mui/material/DialogContent";
+import { IWorkoutsDialog } from "./workoutsDialog.types";
+import { Transition, systemProps } from "./workoutsDialog.utils";
+import { WorkoutsDialogActionButtons } from "./workoutsDialogActionButtons";
+import { Loading, LoadingContext } from "../../providers/loading";
 
-import './workoutsDialog.module.scss';
+import "./workoutsDialog.module.scss";
+import { AppContext } from "../app";
 
-export const WorkoutsDialog = (props: React.PropsWithChildren<IWorkoutsDialog>): JSX.Element => {
-  const { actions } = React.useContext(WorkoutsContext);
+export const WorkoutsDialog = (
+  props: React.PropsWithChildren<IWorkoutsDialog>
+): JSX.Element => {
+  const { actions } = React.useContext(AppContext);
   const loadingCtx = React.useContext(LoadingContext);
 
   const onCloseCLick = () => {
     actions.closeApp();
   };
 
+  const { title, maxWidth } = props;
   return (
     <Dialog
       open={true}
       TransitionComponent={Transition}
       keepMounted
       fullWidth={true}
-      maxWidth={'sm'}
+      maxWidth={maxWidth || "sm"}
     >
       <DialogTitle sx={{ m: 0, p: 2 }}>
-        {props.title}
-        <IconButton aria-label='close' onClick={onCloseCLick} sx={systemProps}>
+        {title}
+        <IconButton aria-label="close" onClick={onCloseCLick} sx={systemProps}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>

@@ -1,46 +1,37 @@
-import * as React from 'react';
-import { buildBaseOptions, WorkoutsContext } from '.';
-import { IWorkout, IWorkoutsState } from './workouts.types';
-import { WORKOUTS_MOCK } from './workouts.mock';
-import { Frequency, RRule, Options } from 'rrule';
+import * as React from "react";
+import { buildBaseOptions, WorkoutsContext } from ".";
+import {
+  IScheduleWorkoutsBody,
+  IWorkout,
+  IWorkoutsState,
+} from "./workouts.types";
+import { WORKOUTS_MOCK } from "./workouts.mock";
+import { Frequency, RRule, Options } from "rrule";
+import { GarminApiContext, getDateFormat } from "../garminApi";
 
 const cDate = new Date();
 const fDate = new Date();
 
-export const WorkoutsProvider = (props: React.PropsWithChildren<unknown>): JSX.Element => {
+export const WorkoutsProvider = (
+  props: React.PropsWithChildren<unknown>
+): JSX.Element => {
+  const { actions, state } = React.useContext(GarminApiContext);
   const [workoutsState, setWorkoutsState] = React.useState({
     selected: undefined,
     workouts: [],
-    isOpen: false,
-    rrule: new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate))
+    rrule: new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate)),
   } as IWorkoutsState);
 
-  const baseUrl = 'https://connect.garmin.com/modern/proxy/workout-service';
-
-  const headers = {
-    nk: 'NT',
-    'x-app-ver': '4.54.0.14',
-    accept: 'application/json, text/plain, */*'
-  };
-
-  const wait = async (ms: number) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
-  };
-
   const get = async () => {
-    if (window.location.href.startsWith('http://localhost:')) {
-      await wait(3000);
+    if (state.isLocalHost) {
+      await actions.wait(3000);
       setWorkoutsState({ ...workoutsState, workouts: WORKOUTS_MOCK });
       return;
     }
 
-    const resp = await fetch(
-      `${baseUrl}/workouts?start=1&limit=9999&myWorkoutsOnly=true&sharedWorkoutsOnly=false`,
-      { headers }
+    const workouts = await actions.get<IWorkout[]>(
+      "/workout-service/workouts?start=1&limit=9999&myWorkoutsOnly=true&sharedWorkoutsOnly=false"
     );
-    const workouts = (await resp.json()) as unknown as IWorkout[];
     setWorkoutsState({ ...workoutsState, workouts });
   };
 
@@ -51,29 +42,18 @@ export const WorkoutsProvider = (props: React.PropsWithChildren<unknown>): JSX.E
       return;
     }
 
-    const reqUrl = `${baseUrl}/schedule/${selected.workoutId}`;
-
     const allDates = rrule.all();
 
     for (let i = 0; i < allDates.length; i++) {
       const date = allDates[i];
 
-      const resp = await fetch(reqUrl, {
-        method: 'POST',
-        body: JSON.stringify({
-          date: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date
-            .getDate()
-            .toString()
-            .padStart(2, '0')}`
-        }),
-        headers: {
-          ...headers,
-          'Content-Type': 'application/json;charset=UTF-8'
-        }
-      });
-
-      const jsonResp = (await resp.json()) as unknown;
-      console.log(jsonResp);
+      const body = {
+        date: getDateFormat(date)
+      };
+      const newItem = await actions.post<void, IScheduleWorkoutsBody>(
+        `/workout-service/schedule/${selected.workoutId}`,
+        body
+      );
     }
   };
 
@@ -81,16 +61,8 @@ export const WorkoutsProvider = (props: React.PropsWithChildren<unknown>): JSX.E
     setWorkoutsState({
       ...workoutsState,
       selected: workout,
-      rrule: new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate))
+      rrule: new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate)),
     });
-  };
-
-  const closeApp = () => {
-    setWorkoutsState({ ...workoutsState, isOpen: false });
-  };
-
-  const openApp = () => {
-    setWorkoutsState({ ...workoutsState, isOpen: true });
   };
 
   const changeRruleOptions = (newOptions: Partial<Options>) => {
@@ -103,11 +75,13 @@ export const WorkoutsProvider = (props: React.PropsWithChildren<unknown>): JSX.E
       get,
       scheduleWorkouts,
       setSelected,
-      closeApp,
-      openApp,
-      changeRruleOptions
-    }
+      changeRruleOptions,
+    },
   };
 
-  return <WorkoutsContext.Provider value={value}>{props.children}</WorkoutsContext.Provider>;
+  return (
+    <WorkoutsContext.Provider value={value}>
+      {props.children}
+    </WorkoutsContext.Provider>
+  );
 };
