@@ -1,4 +1,5 @@
 import {
+  Alert,
   Checkbox,
   Grid,
   Paper,
@@ -14,6 +15,7 @@ import { ICalendarItem } from "../../providers/schedule";
 import { ScheduledDeleteProviderContext } from "./scheduledDeleteProvider/scheduledDeleteProvider.context";
 import { ScheduledDeleteTableHeader } from "./scheduledDeleteTableHeader";
 import { ScheduledDeleteTableRow } from "./scheduledDeleteTableRow";
+import { getMonthName } from "./utils";
 
 export interface IScheduledDeleteTableProps {}
 
@@ -21,11 +23,19 @@ export const ScheduledDeleteTable = (
   props: IScheduledDeleteTableProps
 ): JSX.Element => {
   const { state, actions } = React.useContext(ScheduledDeleteProviderContext);
-  const { selectedIds, items } = state;
+  const { selectedIds, items, selectedMonth, selectedYear } = state;
   const { setSelectedIds } = actions;
 
   const allSelected = selectedIds.length === items.length;
 
+  const monthName = getMonthName(selectedMonth);
+  if (items.length === 0) {
+    return (
+      <Alert severity="info">
+        No workouts schedule for {monthName} {selectedYear}
+      </Alert>
+    );
+  }
   return (
     <Grid container spacing={2} paddingTop={3}>
       <Grid item xs={12}>

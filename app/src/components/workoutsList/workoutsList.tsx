@@ -9,6 +9,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 
 import "./workoutsList.module.scss";
 import {
+  Alert,
   FormControl,
   IconButton,
   Input,
@@ -19,18 +20,13 @@ import {
   Paper,
   TextField,
 } from "@mui/material";
+import { WorkoutsListFilter } from "./workoutsListFilter";
 
 export const WorkoutsList = (): JSX.Element => {
   const workoutCtx = React.useContext(WorkoutsContext);
   const loadingCtx = React.useContext(LoadingContext);
 
   const [searchText, setSearchText] = React.useState("");
-
-  const handleClickShowPassword = () => setSearchText("");
-
-  if (workoutCtx.state.selected) {
-    return <></>;
-  }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   React.useEffect(() => {
@@ -42,6 +38,10 @@ export const WorkoutsList = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (workoutCtx.state.selected) {
+    return <></>;
+  }
+
   const workouts = searchText
     ? workoutCtx.state.workouts.filter(
         (wk) =>
@@ -50,41 +50,22 @@ export const WorkoutsList = (): JSX.Element => {
             wk.description.toLowerCase().indexOf(searchText.toLowerCase()) >= 0)
       )
     : workoutCtx.state.workouts;
+
   return (
     <WorkoutsDialog title="Workouts">
-      <FormControl fullWidth sx={{ m: 1 }} variant="standard">
-        <Input
-          id="standard-adornment-amount"
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          }
-          endAdornment={
-            searchText && (
-              <InputAdornment position="end">
-                <IconButton edge="end" onClick={handleClickShowPassword}>
-                  <ClearIcon />
-                </IconButton>
-              </InputAdornment>
-            )
-          }
-          sx={{
-            paddingRight: '5px',
-            input: { boxShadow: "none", border: "none" },
-          }}
-          value={searchText}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setSearchText(event.target.value);
-          }}
-        />
-      </FormControl>
-
-      <List sx={{ pt: 0 }}>
-        {workouts.map((workout: IWorkout, i: number) => (
-          <WorkoutItem workout={workout} key={i} />
-        ))}
-      </List>
+      <WorkoutsListFilter
+        searchText={searchText}
+        setSearchText={setSearchText}
+      />
+      {workouts.length > 0 ? (
+        <List sx={{ pt: 0 }}>
+          {workouts.map((workout: IWorkout, i: number) => (
+            <WorkoutItem workout={workout} key={i} />
+          ))}
+        </List>
+      ) : (
+        <Alert severity="info">No workouts found.</Alert>
+      )}
     </WorkoutsDialog>
   );
 };

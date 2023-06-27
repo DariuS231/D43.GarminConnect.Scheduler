@@ -1,15 +1,4 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  Toolbar,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
 import * as React from "react";
 import { alpha } from "@mui/material/styles";
 import { ScheduledDeleteProviderContext } from "./scheduledDeleteProvider/scheduledDeleteProvider.context";
@@ -17,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { getMonthName } from "./utils";
 import { ScheduledDeleteDialog } from "./scheduledDeleteDialog";
 import { LoadingContext } from "../../providers/loading";
-import { ICalendarMonth, ScheduleContext } from "../../providers/schedule";
+import { ScheduleContext } from "../../providers/schedule";
 
 export interface IScheduledDeleteTableHeaderProps {}
 
@@ -30,6 +19,8 @@ export const ScheduledDeleteTableHeader = (
   const { items, selectedYear, selectedMonth, selectedIds } = state;
   const [open, setOpen] = React.useState(false);
 
+  const monthName = getMonthName(selectedMonth);
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -37,7 +28,9 @@ export const ScheduledDeleteTableHeader = (
   const handleOk = async () => {
     setOpen(false);
     loadingCtx.actions.show("Removing the selected scheduled workouts...");
-    const requests = selectedIds.map((sid: number) => scheduleCtx.actions.remove(sid));
+    const requests = selectedIds.map((sid: number) =>
+      scheduleCtx.actions.remove(sid)
+    );
     const resp = await Promise.all(requests);
 
     const cal = await scheduleCtx.actions.getAll(selectedYear, selectedMonth);
@@ -97,8 +90,7 @@ export const ScheduledDeleteTableHeader = (
             Scheduled workouts
           </Typography>
           <Typography variant="subtitle1" component="div">
-            {items.length} scheduled for {getMonthName(selectedMonth)}{" "}
-            {selectedYear}
+            {items.length} scheduled for {monthName} {selectedYear}
           </Typography>
         </>
       )}
