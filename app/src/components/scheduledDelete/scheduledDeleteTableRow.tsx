@@ -1,6 +1,7 @@
 import { Checkbox, TableCell, TableRow } from "@mui/material";
 import * as React from "react";
 import { ICalendarItem } from "../../providers/schedule";
+import { alpha } from "@mui/material/styles";
 import { ScheduledDeleteProviderContext } from "./scheduledDeleteProvider/scheduledDeleteProvider.context";
 
 export interface IScheduledDeleteTableRowProps {
@@ -17,11 +18,19 @@ export const ScheduledDeleteTableRow = (
   const { item } = props;
   const selectedIndex = selectedIds.indexOf(item.id);
   const isSelected = selectedIndex >= 0;
+
   return (
     <TableRow
       key={item.id}
       sx={{
         "&:last-child td, &:last-child th": { border: 0 },
+        ...(isSelected && {
+          bgcolor: (theme) =>
+            alpha(
+              theme.palette.primary.main,
+              theme.palette.action.activatedOpacity
+            ),
+        }),
       }}
     >
       <TableCell component="th" scope="row">
@@ -39,9 +48,7 @@ export const ScheduledDeleteTableRow = (
           }}
         />
       </TableCell>
-      <TableCell align="left">
-        {item.localDate.toLocaleDateString()}
-      </TableCell>
+      <TableCell align="left">{item.localDate.toLocaleDateString()}</TableCell>
       <TableCell align="left">{item.sportTypeKey}</TableCell>
       <TableCell component="th" scope="row">
         {item.title}
