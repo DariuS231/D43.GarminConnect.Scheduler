@@ -8,4 +8,8 @@ export interface IGarminApiContext {
   };
 }
 
+export interface IGarminToken {
+  access_token: string;
+}
+
 export interface IGarminApiProps {}
