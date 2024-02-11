@@ -1,5 +1,7 @@
 export const getDateFormat = (dt: Date): string =>{
-    return `${dt.getFullYear()}-${(dt.getMonth() + 1)
-        .toString()
-        .padStart(2, "0")}-${dt.getDate().toString().padStart(2, "0")}`
+
+    const year= dt.getFullYear();
+    const month = (dt.getMonth() + 1).toString().padStart(2, "0");
+    const day = dt.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`
 }

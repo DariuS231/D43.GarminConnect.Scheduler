@@ -23,7 +23,9 @@ export const RRuleGeneratorDatePicker = (
         disablePast={true}
         label={props.label}
         value={props.value}
-        onChange={props.onChange}
+        onChange={(newValue) => {
+          props.onChange(newValue && new Date(Date.UTC(newValue.getFullYear(),newValue.getMonth(),newValue.getDate(),0,0,0)));
+        }}
         renderInput={(params) => {
           params["aria-readonly"] = true;
           return <TextField {...params} />;
