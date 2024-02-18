@@ -19,8 +19,14 @@ export interface IWorkout {
   estimated: boolean;
 }
 
+export type DictionaryString = {
+  [key: string]: any;
+};
+
+
 export interface IWorkoutsState {
   workouts: IWorkout[];
+  selectedWorkouts: number[];
   selected?: IWorkout;
   rrule: RRule;
 }
@@ -28,8 +34,12 @@ export interface IWorkoutsState {
 export interface IWorkoutsActions {
   get: () => Promise<void>;
   setSelected: (workout?: IWorkout) => void;
+  setSelectedToDelete: (workout?: IWorkout) => void;
   scheduleWorkouts: () => Promise<void>;
+  getWorkoutDetails: (workout: IWorkout) => Promise<string>;
+  importWorkout: (workoutData: DictionaryString) => Promise<void>;
   changeRruleOptions: (newOptions: Partial<Options>) => void;
+  deleteSelectedWorkouts: () => Promise<void>
 }
 
 export interface IWorkoutsContext {

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { buildBaseOptions, WorkoutsContext } from ".";
 import {
+  DictionaryString,
   IScheduleWorkoutsBody,
   IWorkout,
   IWorkoutsState,
@@ -19,6 +20,7 @@ export const WorkoutsProvider = (
   const [workoutsState, setWorkoutsState] = React.useState({
     selected: undefined,
     workouts: [],
+    selectedWorkouts: [],
     rrule: new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate)),
   } as IWorkoutsState);
 
@@ -32,7 +34,7 @@ export const WorkoutsProvider = (
     const workouts = await actions.get<IWorkout[]>(
       "/workout-service/workouts?start=1&limit=9999&myWorkoutsOnly=true&sharedWorkoutsOnly=false"
     );
-    setWorkoutsState({ ...workoutsState, workouts });
+    setWorkoutsState({ ...workoutsState, workouts, selectedWorkouts: [] });
   };
 
   const scheduleWorkouts = async () => {
@@ -44,25 +46,85 @@ export const WorkoutsProvider = (
 
     const allDates = rrule.all();
 
-    for (let i = 0; i < allDates.length; i++) {
-      const date = allDates[i];
-
-      const body = {
-        date: getDateFormat(date)
-      };
-      const newItem = await actions.post<void, IScheduleWorkoutsBody>(
+    const allRequests = allDates.map((date: Date) => {
+      return actions.post<void, IScheduleWorkoutsBody>(
         `/workout-service/schedule/${selected.workoutId}`,
-        body
+        {
+          date: getDateFormat(date),
+        }
       );
-    }
+    });
+
+    await Promise.all(allRequests);
   };
 
   const setSelected = (workout?: IWorkout) => {
     setWorkoutsState({
       ...workoutsState,
       selected: workout,
+      selectedWorkouts: [],
       rrule: new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate)),
     });
+  };
+
+  const setSelectedToDelete = (workout: IWorkout) => {
+    const indx = workoutsState.selectedWorkouts.indexOf(workout.workoutId);
+    const newSelected =
+      indx >= 0
+        ? [
+            ...workoutsState.selectedWorkouts.slice(0, indx),
+            ...workoutsState.selectedWorkouts.slice(indx + 1),
+          ]
+        : [...workoutsState.selectedWorkouts, workout.workoutId];
+    setWorkoutsState({
+      ...workoutsState,
+      selectedWorkouts: newSelected,
+    });
+  };
+
+  const deleteSelectedWorkouts = async (): Promise<void> => {
+    const requests = workoutsState.selectedWorkouts.map((id) => {
+      actions.remove(`/workout-service/workout/${id}`);
+    });
+
+    await Promise.all(requests);
+
+    await actions.wait(1000);
+
+    const workouts = await actions.get<IWorkout[]>(
+      "/workout-service/workouts?start=1&limit=9999&myWorkoutsOnly=true&sharedWorkoutsOnly=false"
+    );
+    setWorkoutsState({
+      ...workoutsState,
+      selectedWorkouts: [],
+      workouts,
+    });
+  };
+
+  const importWorkout = async (workoutData: DictionaryString) => {
+    await actions.post<void, DictionaryString>(
+      `/workout-service/workout`,
+      workoutData
+    );
+
+    await actions.wait(1000);
+    const workouts = await actions.get<IWorkout[]>(
+      "/workout-service/workouts?start=1&limit=9999&myWorkoutsOnly=true&sharedWorkoutsOnly=false"
+    );
+    setWorkoutsState({
+      ...workoutsState,
+      selectedWorkouts: [],
+      workouts,
+    });
+  };
+
+  const getWorkoutDetails = async (workout: IWorkout) => {
+    const workoutDetails = await actions.get<any>(
+      `/workout-service/workout/${
+        workout.workoutId
+      }?includeAudioNotes=true&_=${Date.now()}`
+    );
+    return workoutDetails;
   };
 
   const changeRruleOptions = (newOptions: Partial<Options>) => {
@@ -76,6 +138,10 @@ export const WorkoutsProvider = (
       scheduleWorkouts,
       setSelected,
       changeRruleOptions,
+      getWorkoutDetails,
+      importWorkout,
+      setSelectedToDelete,
+      deleteSelectedWorkouts,
     },
   };
 

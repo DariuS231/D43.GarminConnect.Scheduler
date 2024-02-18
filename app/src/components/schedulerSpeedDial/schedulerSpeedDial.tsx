@@ -2,9 +2,9 @@ import * as React from "react";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
-import EventRepeat from "@mui/icons-material/EventRepeat";
+import ViewListIcon from "@mui/icons-material/ViewList";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Schedule from "@mui/icons-material/Schedule";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import EventBusy from "@mui/icons-material/EventBusy";
 import Coffee from "@mui/icons-material/Coffee";
 import { AppContext, Apps } from "../app";
@@ -20,14 +20,14 @@ export const SchedulerSpeedDial = (): JSX.Element => {
   //
   return (
     <SpeedDial
-      ariaLabel="Garmin workouts recursive scheduler "
+      ariaLabel="Garmin workouts manager"
       sx={{ position: "absolute", bottom: 16, right: 16 }}
-      icon={<SpeedDialIcon icon={<Schedule />} />}
+      icon={<SpeedDialIcon icon={<FitnessCenterIcon />} />}
     >
       <SpeedDialAction
         key="Schedule"
-        icon={<EventRepeat />}
-        tooltipTitle="Schedule workouts"
+        icon={<ViewListIcon />}
+        tooltipTitle="Manage Workouts"
         onClick={() => actions.openApp(Apps.Workouts)}
       />
       <SpeedDialAction

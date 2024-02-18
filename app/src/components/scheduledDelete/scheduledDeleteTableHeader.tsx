@@ -6,7 +6,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { getMonthName } from "./utils";
 import { ScheduledDeleteDialog } from "./scheduledDeleteDialog";
 import { LoadingContext } from "../../providers/loading";
-import { ScheduleContext } from "../../providers/schedule";
+import { ICalendarItem, ScheduleContext } from "../../providers/schedule";
+import { SelectedToolbar } from "../selectedToolbar";
 
 export interface IScheduledDeleteTableHeaderProps {}
 
@@ -17,16 +18,10 @@ export const ScheduledDeleteTableHeader = (
   const scheduleCtx = React.useContext(ScheduleContext);
   const loadingCtx = React.useContext(LoadingContext);
   const { items, selectedYear, selectedMonth, selectedIds } = state;
-  const [open, setOpen] = React.useState(false);
 
   const monthName = getMonthName(selectedMonth);
-  
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleOk = async () => {
-    setOpen(false);
     loadingCtx.actions.show("Removing the selected scheduled workouts...");
     const requests = selectedIds.map((sid: number) =>
       scheduleCtx.actions.remove(sid)
@@ -38,62 +33,26 @@ export const ScheduledDeleteTableHeader = (
     loadingCtx.actions.hide();
   };
 
-  const handleClose = () => {
-    setOpen(false);
+
+  const getDeleteConfirmTexts = (): string[] => {
+    let names: string[] = [];
+
+    selectedIds.forEach((id) => {
+      const workout = items.find((i: ICalendarItem) => i.id === id);
+      if (workout)
+        names.push(
+          `${workout?.localDate.toLocaleDateString()} - ${workout?.title}`
+        );
+    });
+    return names;
   };
   return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(selectedIds.length > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
-      }}
-    >
-      {selectedIds.length > 0 ? (
-        <>
-          <Typography
-            sx={{ flex: "1 1 100%" }}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {selectedIds.length} selected
-          </Typography>
-          <>
-            <Tooltip title="Delete">
-              <IconButton onClick={handleClickOpen}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-            {open && (
-              <ScheduledDeleteDialog
-                handleClose={handleClose}
-                handleOk={handleOk}
-              />
-            )}
-          </>
-        </>
-      ) : (
-        <>
-          <Typography
-            sx={{ flex: "80%" }}
-            variant="h6"
-            id="tableTitle"
-            component="div"
-          >
-            Scheduled workouts
-          </Typography>
-          <Typography variant="subtitle1" component="div">
-            {items.length} scheduled for {monthName} {selectedYear}
-          </Typography>
-        </>
-      )}
-    </Toolbar>
+    <SelectedToolbar
+      getDeleteConfirmTexts={getDeleteConfirmTexts}
+      handleDeleteConfirm={handleOk}
+      multipleEntityName="Scheduled workouts"
+      singleEntityName="Scheduled workout"
+      noSelectedEntityText={`${items.length} scheduled for ${monthName} ${selectedYear}`} selectedCount={selectedIds.length}
+    />
   );
 };

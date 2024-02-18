@@ -1,0 +1,31 @@
+.workoutImporterInput {
+    display: inherit;
+    input {
+      font: inherit !important;
+      letter-spacing: inherit !important;
+      color: currentColor !important;
+      border: 0 !important;
+      box-sizing: content-box !important;
+      background: none !important;
+      height: 1.4375em !important;
+      margin: 0 !important;
+      -webkit-tap-highlight-color: transparent !important;
+      display: block !important;
+      min-width: 0 !important;
+      width: 100% !important;
+      -webkit-animation-name: mui-auto-fill-cancel !important;
+      animation-name: mui-auto-fill-cancel !important;
+      -webkit-animation-duration: 10ms !important;
+      animation-duration: 10ms !important;
+      padding: 16.5px 14px !important;
+      padding-right: 0 !important;
+      box-shadow: none !important;
+    }
+    legend {
+      display: none;
+    }
+    label {
+        margin-top: -5px;
+    }
+}
+
