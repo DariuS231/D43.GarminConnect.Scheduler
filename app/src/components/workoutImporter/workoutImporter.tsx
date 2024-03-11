@@ -108,7 +108,7 @@ export const WorkoutImporter = (props: IWorkoutImporterProps): JSX.Element => {
                   variant="contained"
                   startIcon={<CloudUploadIcon />}
                 >
-                  Import Workout
+                  Select workout file
                   <VisuallyHiddenInput
                     type="file"
                     accept="application/JSON"

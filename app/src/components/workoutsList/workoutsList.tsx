@@ -65,7 +65,7 @@ export const WorkoutsList = (): JSX.Element => {
         <>
           <WorkoutListSelectedHeader />
           <Box sx={{ pt: 0 }}>
-            <List sx={{}}>
+            <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
               {workouts.map((workout: IWorkout, i: number) => (
                 <WorkoutItem workout={workout} key={i} />
               ))}
