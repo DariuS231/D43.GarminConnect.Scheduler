@@ -90,7 +90,7 @@ export const WorkoutImporter = (props: IWorkoutImporterProps): JSX.Element => {
 
   return (
     <WorkoutsDialog
-      title={`Import a new workout`}
+      title="Import a new workout"
       onCancelClick={onCancelClick}
       onSaveClick={onSaveClick}
       disableSaveButton={!workoutObject || !workoutObject["workoutName"]}

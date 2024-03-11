@@ -19,7 +19,6 @@ export const WorkoutsListFilter = (
   return (
     <FormControl fullWidth sx={{ m: 1 }} variant="standard">
       <Input
-        id="standard-adornment-amount"
         startAdornment={
           <InputAdornment position="start">
             <SearchIcon />
