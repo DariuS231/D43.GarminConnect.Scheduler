@@ -1,6 +1,6 @@
 {
-    "name": "Garmin Connect Workout Scheduler",
-    "description": "Garmin Connect Workout Scheduler",
+    "name": "Garmin Connect workouts manager",
+    "description": "An extension that enhances your Garmin Connect experience by adding missing features from the official site. Easily plan repetitive workouts, download existing workouts to share them with friends, and efficiently manage your schedule. With options for quick deletion and bulk removal, streamline your workout planning and take control of your fitness routine like never before. Try it now to simplify your training regimen.",
     "version": "1.0",
     "manifest_version": 3,
     "content_scripts": [{
