@@ -4,41 +4,32 @@ import { WorkoutsDialog } from "../workoutsDialog";
 import { IWorkout, WorkoutsContext } from "../../providers/workouts";
 import { WorkoutItem } from "./workoutItem";
 import { LoadingContext } from "../../providers/loading";
-import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
 
 import "./workoutsList.module.scss";
-import {
-  Alert,
-  FormControl,
-  IconButton,
-  Input,
-  InputAdornment,
-  InputBase,
-  InputLabel,
-  OutlinedInput,
-  Paper,
-  TextField,
-} from "@mui/material";
+import { Alert, Box } from "@mui/material";
 import { WorkoutsListFilter } from "./workoutsListFilter";
+import { WorkoutListImport } from "./workoutListImport";
+import { WorkoutListSelectedHeader } from "./workoutListSelectedHeader";
+import {
+  WorkoutScreen,
+  WorkoutsManagementContext,
+} from "../../providers/workoutsManagement";
 
 export const WorkoutsList = (): JSX.Element => {
   const workoutCtx = React.useContext(WorkoutsContext);
   const loadingCtx = React.useContext(LoadingContext);
+  const screenCtx = React.useContext(WorkoutsManagementContext);
 
   const [searchText, setSearchText] = React.useState("");
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   React.useEffect(() => {
     loadingCtx.actions.show("Getting all workouts...");
-    // eslint-disable-next-line no-unused-vars
     const _ = workoutCtx.actions.get().then(() => {
       loadingCtx.actions.hide();
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (workoutCtx.state.selected) {
+  if (screenCtx.state.activeScreen !== WorkoutScreen.List) {
     return <></>;
   }
 
@@ -52,17 +43,35 @@ export const WorkoutsList = (): JSX.Element => {
     : workoutCtx.state.workouts;
 
   return (
-    <WorkoutsDialog title="Workouts">
-      <WorkoutsListFilter
-        searchText={searchText}
-        setSearchText={setSearchText}
-      />
+    <WorkoutsDialog title="Workouts" maxWidth="md">
+      <Box
+        sx={{
+          display: "flex",
+          p: 1,
+        }}
+      >
+        <Box sx={{ p: 1, m: 1, flexGrow: 1 }}>
+          <WorkoutsListFilter
+            searchText={searchText}
+            setSearchText={setSearchText}
+          />
+        </Box>
+        <Box sx={{ p: 1, m: 1 }}>
+          <WorkoutListImport />
+        </Box>
+      </Box>
+
       {workouts.length > 0 ? (
-        <List sx={{ pt: 0 }}>
-          {workouts.map((workout: IWorkout, i: number) => (
-            <WorkoutItem workout={workout} key={i} />
-          ))}
-        </List>
+        <>
+          <WorkoutListSelectedHeader />
+          <Box sx={{ pt: 0 }}>
+            <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+              {workouts.map((workout: IWorkout, i: number) => (
+                <WorkoutItem workout={workout} key={i} />
+              ))}
+            </List>
+          </Box>
+        </>
       ) : (
         <Alert severity="info">No workouts found.</Alert>
       )}

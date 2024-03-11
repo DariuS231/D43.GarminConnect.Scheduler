@@ -7,6 +7,8 @@ import { ScheduleProvider } from "../../providers/schedule";
 import { WorkoutsProvider } from "../../providers/workouts";
 
 import "./app.module.scss";
+import { WorkoutsManagementProvider } from "../../providers/workoutsManagement";
+import { WorkoutImporter } from "../workoutImporter";
 
 export const App = (): JSX.Element => {
   const { state } = React.useContext(AppContext);
@@ -19,10 +21,11 @@ export const App = (): JSX.Element => {
   switch (state.app) {
     case Apps.Workouts:
       return (
-        <WorkoutsProvider>
+        <WorkoutsManagementProvider>
           <WorkoutsList />
           <WorkoutScheduler />
-        </WorkoutsProvider>
+          <WorkoutImporter />
+        </WorkoutsManagementProvider>
       );
 
     case Apps.DeleteScheduled:
