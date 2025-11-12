@@ -28,6 +28,8 @@ export const createWorkoutPayload = (uploadedJson: DictionaryString): Dictionary
     "consumerName",
     "consumerImageURL",
     "consumerWebsiteURL",
+    "estimateType",
+    "estimatedDistanceUnit",
   ];
 
   deleteProps.forEach((propName) => {
