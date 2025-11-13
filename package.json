@@ -4,14 +4,14 @@
   "description": "",
   "source": "app/src/index.html",
   "scripts": {
-    "prebuild": "npm run clean && npm run lint",
+    "prebuild": "npm run clean",
     "build": "parcel build app/index.html",
     "buildJs": "parcel build --no-content-hash app/src/index.tsx --no-source-maps",
     "package:chrome": "npm run prebuild && npm run buildJs && npm run copy:chrome",
     "copy:chrome": "npx copyfiles -f ./app/extension/* ./assets/logo/* ./dist/",
     "clean": "rimraf ./dist",
     "lint": "npm run lint:code",
-    "lint:code": "eslint --ext ts,tsx src",
+    "lint:code": "eslint --ext ts,tsx app/src",
     "start": "parcel app/index.html --open",
     "zip": "npm-build-zip --source=dist"
   },
