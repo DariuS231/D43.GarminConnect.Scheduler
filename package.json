@@ -4,7 +4,7 @@
   "description": "",
   "source": "app/src/index.html",
   "scripts": {
-    "prebuild": "npm run clean lint",
+    "prebuild": "npm run clean && npm run lint",
     "build": "parcel build app/index.html",
     "buildJs": "parcel build --no-content-hash app/src/index.tsx --no-source-maps",
     "package:chrome": "npm run prebuild && npm run buildJs && npm run copy:chrome",
@@ -35,6 +35,7 @@
     "npm-build-zip": "^1.0.3",
     "parcel": "^2.6.0",
     "parcel-bundler": "^1.12.5",
+    "rimraf": "^6.1.0",
     "sass": "^1.52.1",
     "typescript": "^4.7.2",
     "vsc-base": "^0.9.11"
