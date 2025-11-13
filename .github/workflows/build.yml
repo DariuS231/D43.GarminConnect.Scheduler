@@ -14,17 +14,21 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [20]
 
     steps:
-    - uses: actions/checkout@v3
+     - uses: actions/checkout@v4
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run package:chrome
+        cache: "pnpm"
+    - run: pnpm install
+    - run: pnpm run package:chrome
     - name: Update dist/manifest.json
       run: echo "`jq '.version="${{env.VERSION}}"' dist/manifest.json`" > dist/manifest.json
     - name: read dist/manifest.json
