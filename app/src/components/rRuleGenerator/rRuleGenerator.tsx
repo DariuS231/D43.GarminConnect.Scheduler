@@ -8,6 +8,7 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import { Options } from "rrule";
 import { RRuleGeneratorSectionTitle } from "./rRuleGeneratorSectionTitle";
+import { convertFromUTCDate } from "./rRuleGenerator.utils";
 import Typography from "@mui/material/Typography";
 import { WorkoutsContext } from "../../providers/workouts";
 
@@ -34,7 +35,7 @@ export const RRuleGenerator = (): JSX.Element => {
             <Grid item xs={1}></Grid>
             <Grid item xs={11}>
               <RRuleGeneratorDatePicker
-                value={dtstart}
+                value={convertFromUTCDate(dtstart)}
                 onChange={(value) => {
                   if (value) {
                     actions.changeRruleOptions({
@@ -73,8 +74,8 @@ export const RRuleGenerator = (): JSX.Element => {
             <Grid item xs={1}></Grid>
             <Grid item xs={11}>
               <RRuleGeneratorDatePicker
-                value={until as Date}
-                minDate={dtstart}
+                value={convertFromUTCDate(until as Date)}
+                minDate={convertFromUTCDate(dtstart)}
                 onChange={(value) => {
                   if (value) {
                     actions.changeRruleOptions({
@@ -98,7 +99,7 @@ export const RRuleGenerator = (): JSX.Element => {
                 <div className={classes.occurrencesList}>
                   {rrule.all().map((a, i) => (
                     <div className={classes.occurrencesItem} key={i}>
-                      {a.toLocaleDateString()}
+                      {convertFromUTCDate(a).toLocaleDateString()}
                     </div>
                   ))}
                 </div>
