@@ -1,5 +1,10 @@
 import * as React from "react";
-import { buildBaseOptions, WorkoutsContext } from ".";
+import {
+  buildBaseOptions,
+  convertFromUTCDate,
+  convertToUTCDate,
+  WorkoutsContext,
+} from ".";
 import {
   DictionaryString,
   IScheduleWorkoutsBody,
@@ -21,7 +26,11 @@ export const WorkoutsProvider = (
     selected: undefined,
     workouts: [],
     selectedWorkouts: [],
-    rrule: new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate)),
+    rrule: new RRule(buildBaseOptions(
+      Frequency.WEEKLY,
+      convertToUTCDate(cDate),
+      convertToUTCDate(fDate)
+    )),
   } as IWorkoutsState);
 
   const get = async () => {
@@ -50,7 +59,7 @@ export const WorkoutsProvider = (
       return actions.post<void, IScheduleWorkoutsBody>(
         `/workout-service/schedule/${selected.workoutId}`,
         {
-          date: getDateFormat(date),
+          date: getDateFormat(convertFromUTCDate(date)),
         }
       );
     });
@@ -63,7 +72,11 @@ export const WorkoutsProvider = (
       ...workoutsState,
       selected: workout,
       selectedWorkouts: [],
-      rrule: new RRule(buildBaseOptions(Frequency.WEEKLY, cDate, fDate)),
+      rrule: new RRule(buildBaseOptions(
+        Frequency.WEEKLY,
+        convertToUTCDate(cDate),
+        convertToUTCDate(fDate)
+      )),
     });
   };
 
