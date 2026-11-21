@@ -44,7 +44,7 @@ export const WorkoutScheduler = (): JSX.Element => {
     screenCtx.actions.setActive(WorkoutScreen.List);
     loadingCtx.actions.hide();
     const firstDate = allDates[0];
-    window.location.href = `https://connect.garmin.com/modern/calendar/${firstDate.getFullYear()}/${firstDate.getMonth()}`;
+    window.location.href = `https://connect.garmin.com/modern/calendar/${firstDate.getUTCFullYear()}/${firstDate.getUTCMonth()}`;
     return false;
   };
 

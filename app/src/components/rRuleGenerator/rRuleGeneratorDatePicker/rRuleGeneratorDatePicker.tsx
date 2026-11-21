@@ -2,6 +2,7 @@ import * as React from "react";
 import { IRRuleGeneratorDatePickerProps } from ".";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import TextField from "@mui/material/TextField";
+import { convertToUTCDate } from "../rRuleGenerator.utils";
 
 import * as classes from "./rRuleGeneratorDatePicker.module.scss";
 
@@ -24,7 +25,7 @@ export const RRuleGeneratorDatePicker = (
         label={props.label}
         value={props.value}
         onChange={(newValue) => {
-          props.onChange(newValue && new Date(Date.UTC(newValue.getFullYear(),newValue.getMonth(),newValue.getDate(),0,0,0)));
+          props.onChange(newValue && convertToUTCDate(newValue));
         }}
         renderInput={(params) => {
           params["aria-readonly"] = true;

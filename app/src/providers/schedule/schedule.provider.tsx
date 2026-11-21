@@ -23,7 +23,10 @@ export const ScheduleProvider = (
     let newItems: ICalendarItem[] = [];
     cal.calendarItems.forEach((ci) => {
       if (ci.itemType === "workout") {
-        ci.localDate = new Date(ci.date);
+        // ci.date is "YYYY-MM-DD"; new Date(string) would parse it as UTC midnight,
+        // which is the previous day in timezones west of UTC.
+        const [y, m, d] = ci.date.split("-").map(Number);
+        ci.localDate = new Date(y, m - 1, d);
         if (ci.localDate.getMonth() === month) {
           newItems.push(ci);
         }
